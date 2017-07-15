@@ -122,7 +122,8 @@ class BlitzcrankBot(commands.AutoShardedBot):
 
     def run(self):
         super().run(config.TOKEN, reconnect=True)
-    #botClient.connect(reconnect=True)
 
 if __name__ == '__main__':
     BlitzcrankBot().run()
+
+#Base finished
