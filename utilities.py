@@ -32,6 +32,7 @@ class Utilities:
     @commands.command(no_pm=True)
     async def shutdown(self, ctx):
         if ctx.message.author.id == ownerID:
+            await ctx.send("Shutting down.")
             await self.bot.logout()
         else:
             await ctx.send("Sorry, you don't have permission to use that command!")
