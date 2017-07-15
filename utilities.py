@@ -21,7 +21,6 @@ class Utilities:
         pingEnd = time.time()
         pingDiff = pingEnd - pingStart
         response = 'Pong! completed in {}s.'.format(pingDiff)
-        print(response)
         await msg.edit(content=response)
 
     @commands.command(no_pm=True)
