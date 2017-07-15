@@ -10,17 +10,6 @@ class Utilities:
     def __init__(self, bot):
         self.bot = bot
 
-    async def on_command(self, ctx):
-        message = ctx.message
-        destination = None
-        if message.channel.is_private:
-            destination = 'Private message'
-        else:
-            destination = '#{0.channel.name}: {0.server.name})'.format(message)
-
-        log.info('{0.timestamp}: {0.author} in {1}: {0.content}'.format(message,
-                    destination))
-
     @commands.command(no_pm=True)
     async def ping(self, ctx):
         """Tests response time."""
@@ -29,7 +18,8 @@ class Utilities:
         pingEnd = time.time()
         pingDiff = pingEnd - pingStart
         response = 'Pong! completed in {}s.'.format(pingDiff)
-        await msg.edit(response)
+        print(response)
+        await msg.edit(content=response)
 
     @commands.command(no_pm=True)
     async def uptime(self, ctx):

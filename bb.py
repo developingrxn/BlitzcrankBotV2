@@ -65,6 +65,17 @@ class BlitzcrankBot(commands.AutoShardedBot):
                 await originalmessage.edit(success)
         await self.process_commands(message)
 
+    async def on_command(self, ctx):
+        message = ctx.message
+        destination = None
+        if isinstance(ctx.channel, discord.abc.PrivateChannel):
+            destination = 'Private message'
+        else:
+            destination = '#{0.channel.name}: {0.guild.name})'.format(message)
+
+        self.logger.info('{0.created_at}: {0.author} in {1}: {0.content}'.format(message,
+                                                                                 destination))
+
     async def on_command_error(self, error, ctx):
         """Error handling"""
         if isinstance(error, commands.MissingRequiredArgument):
