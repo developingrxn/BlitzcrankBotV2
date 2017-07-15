@@ -132,7 +132,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
             await channel.send('', embed=embed)
 
     def run(self):
-        super().run(config.TOKEN, reconnect=True)
+        super().run(self.bot_token, reconnect=True)
 
 if __name__ == '__main__':
     BlitzcrankBot().run()
