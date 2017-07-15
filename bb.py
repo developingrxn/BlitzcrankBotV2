@@ -47,7 +47,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
     async def on_message(self, message):
         """Functions that are not part of ext for various reasons."""
         #eval command here because idk how to get it to work in cogs
-        if message.content.startswith('bl!eval') and message.author.id == 66141201631285248:
+        if message.content.startswith('b!eval') and message.author.id == config.OWNER_ID:
             parameters = ' '.join(message.content.strip().split(' ')[1:])
             output = None
             try:

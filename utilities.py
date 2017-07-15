@@ -1,10 +1,13 @@
-import time
 import logging
-from discord.ext import commands
+import time
 from datetime import timedelta
+
+from discord.ext import commands
+
+import config
+
 log = logging.getLogger()
 startTime = time.localtime()
-ownerID = 66141201631285248
 class Utilities:
     """ Commands relating to the Blitzcrank Bot's operations."""
     def __init__(self, bot):
@@ -31,7 +34,7 @@ class Utilities:
 
     @commands.command(no_pm=True)
     async def shutdown(self, ctx):
-        if ctx.message.author.id == ownerID:
+        if ctx.message.author.id == config.OWNER_ID:
             await ctx.send("Shutting down.")
             await self.bot.logout()
         else:
