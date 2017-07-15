@@ -104,7 +104,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
             print(error)
             await ctx.send(error_msg)
             await ctx.send("If you feel like this shouldn't be happening, "
-                               "feel free to join my support server with b!support")
+                           "feel free to join my support server with b!support")
 
     async def on_guild_join(self, guild):
         """Check for bot collection"""
