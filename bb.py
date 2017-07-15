@@ -47,7 +47,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
     async def on_message(self, message):
         """Functions that are not part of ext for various reasons."""
         #eval command here because idk how to get it to work in cogs
-        if message.content.startswith('bl!eval') and message.author.id == '66141201631285248':
+        if message.content.startswith('bl!eval') and message.author.id == 66141201631285248:
             parameters = ' '.join(message.content.strip().split(' ')[1:])
             output = None
             try:
@@ -56,13 +56,13 @@ class BlitzcrankBot(commands.AutoShardedBot):
                 output = eval(parameters)
             except Exception:
                 error = "```fix\n" + str(traceback.format_exc()) + "\n```"
-                await originalmessage.edit(error)
+                await originalmessage.edit(content=error)
                 traceback.print_exc()
             if asyncio.iscoroutine(output):
                 output = await output
             if output:
                 success = "```fix\n" + str(output) + "\n```"
-                await originalmessage.edit(success)
+                await originalmessage.edit(content=success)
         await self.process_commands(message)
 
     async def on_command(self, ctx):
