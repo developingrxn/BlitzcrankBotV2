@@ -8,8 +8,11 @@ import config
 
 log = logging.getLogger()
 startTime = time.localtime()
+
+
 class Utilities:
     """ Commands relating to the Blitzcrank Bot's operations."""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -45,7 +48,9 @@ class Utilities:
                 "summoner look ups. Written using discord.py by "
                 "Frosty ☃#5263.")
         await ctx.send(info)
+
+
 def setup(bot):
     bot.add_cog(Utilities(bot))
 
-#Base finished
+# Base finished

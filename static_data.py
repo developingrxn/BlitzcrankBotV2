@@ -1,8 +1,10 @@
 import asyncio
 from discord.ext import commands
 
+
 class Help:
     """Commands that return helpful information."""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -24,8 +26,9 @@ class Help:
         link = "https://discord.gg/J78uAgZ"
         await ctx.send("Join my support server if you need help with commands!\n " + link)
 
+
 def setup(bot):
     """Adds cog to bot"""
     bot.add_cog(Help(bot))
 
-#Base finished
+# Base finished

@@ -15,7 +15,7 @@ class Summoner:
     def __init__(self, bot):
         self.bot = bot
 
-    async def raise_exception(self, ctx, exception: str, sum_name: str, region:str ):
+    async def raise_exception(self, ctx, exception: str, sum_name: str, region: str):
         """HTTP error handling"""
         if exception.error_code == 400:
             await ctx.send("400: Bad Request! Please join the support server with b!support.")
@@ -73,7 +73,7 @@ class Summoner:
         if " " in top_champ[0].champion.name:
             url_champ_name = top_champ[0].champion.name.replace(" ", "")
             url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/{}.png'.format(
-                   url_champ_name)
+                url_champ_name)
 
         # Fixes URL for champions with an apostrophe in their name (i.e Vel'Koz)
         # However the capitalisation is not standardised thus they have to be edited manually
@@ -89,7 +89,7 @@ class Summoner:
             url = 'http://ddragon.leagueoflegends.com/cdn/7.8.1/img/champion/KogMaw.png'
         else:
             url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/{}.png'.format(
-                   top_champ[0].champion.name)
+                top_champ[0].champion.name)
 
         for league in leagues:
             loop += 1
@@ -139,8 +139,11 @@ class Summoner:
         embed.add_field(name="Overall:", value=u'\u200B', inline=True)
         embed.add_field(name="Top Champions", value=top_champs, inline=True)
         embed.add_field(name="W/L", value=value1, inline=True)
-        embed.set_footer(text="Requested by: {0} | {1}".format(ctx.author.name, datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p")),
-                         icon_url=ctx.author.avatar_url)
+        embed.set_footer(
+            text="Requested by: {0} | {1}".format(
+                ctx.author.name,
+                datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p")),
+            icon_url=ctx.author.avatar_url)
 
         await ctx.send("", embed=embed)
 

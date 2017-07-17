@@ -5,6 +5,7 @@ import config
 
 class Reload:
     """Blitzcrank's reloading module,"""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -22,6 +23,7 @@ class Reload:
                 await ctx.send("{} successfully reloaded.".format(module))
         else:
             await ctx.send("Sorry, you don't have permission to use that command!")
+
 
 def setup(bot):
     bot.add_cog(Reload(bot))

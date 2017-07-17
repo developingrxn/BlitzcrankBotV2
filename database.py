@@ -1,9 +1,11 @@
 import sqlite3
 
+
 class Database:
     """Default region handling"""
     database = ''
     cursor = ''
+
     def __init__(self, database: str):
         self.database = sqlite3.connect(database)
         self.cursor = self.database.cursor()
