@@ -1,4 +1,5 @@
 import discord
+import datetime
 from cassiopeia import riotapi
 from cassiopeia.type.api.exception import APIError
 from discord.ext import commands
@@ -13,16 +14,15 @@ class Summoner:
 
     def __init__(self, bot):
         self.bot = bot
-        self.database = database.Database('guilds.db')
 
-    async def raise_exception(self, ctx, exception: str):
+    async def raise_exception(self, ctx, exception: str, sum_name: str, region:str ):
         """HTTP error handling"""
         if exception.error_code == 400:
             await ctx.send("400: Bad Request! Please join the support server with b!support.")
         elif exception.error_code == 403:
             await ctx.send("403: Forbidden! Most likely my API key has expired.")
         elif exception.error_code == 404:
-            await ctx.send("404: Not Found! Please check the spelling of your summoner name.")
+            await ctx.send("Could not find summoner {0} on {1}!".format(sum_name, region))
         elif exception.error_code == 415:
             await ctx.send("415: Unsupported Media Type! No clue how you triggered this one.")
         elif exception.error_code == 429:
@@ -36,7 +36,9 @@ class Summoner:
     async def stats(self, ctx, sum_name: str, region=None):
         if region is None:
             try:
-                region = self.database.find_entry(ctx.guild.id)
+                db = database.Database('guilds.db')
+                region = db.find_entry(ctx.guild.id)
+                db.close_connection()
             except TypeError:
                 error_msg = ("Please specify a region, or set a default region with `b!region "
                              "set [region]`.")
@@ -58,7 +60,7 @@ class Summoner:
             await ctx.send("Could not find champion, please check spelling!")
             return
         except APIError as exception:
-            await Summoner.raise_exception(self, ctx, exception)
+            await Summoner.raise_exception(self, ctx, exception, sum_name, region)
             return
 
         embed = discord.Embed(colour=0x1affa7)
@@ -137,7 +139,7 @@ class Summoner:
         embed.add_field(name="Overall:", value=u'\u200B', inline=True)
         embed.add_field(name="Top Champions", value=top_champs, inline=True)
         embed.add_field(name="W/L", value=value1, inline=True)
-        embed.set_footer(text="Requested by: {0}".format(ctx.author.name),
+        embed.set_footer(text="Requested by: {0} | {1}".format(ctx.author.name, datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p")),
                          icon_url=ctx.author.avatar_url)
 
         await ctx.send("", embed=embed)
