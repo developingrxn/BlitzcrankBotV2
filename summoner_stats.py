@@ -18,19 +18,54 @@ class Summoner:
     async def raise_exception(self, ctx, exception: str, sum_name: str, region: str):
         """HTTP error handling"""
         if exception.error_code == 400:
-            await ctx.send("400: Bad Request! Please join the support server with b!support.")
+            embed = discord.Embed(
+                title="400: Bad Request!",
+                description="Please join the support server with b!support.",
+                colour=0xCA0147)
+            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            await ctx.send("", embed=embed)
         elif exception.error_code == 403:
-            await ctx.send("403: Forbidden! Most likely my API key has expired.")
+            embed = discord.Embed(
+                title="403: Forbidden!",
+                description="Most likely my API key has expired",
+                colour=0xCA0147)
+            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            await ctx.send("", embed=embed)
         elif exception.error_code == 404:
-            await ctx.send("Could not find summoner {0} on {1}!".format(sum_name, region))
+            embed = discord.Embed(
+                title="404: Not Found!",
+                description="Could not find summoner {0} on {1}".format(sum_name, region),
+                colour=0xCA0147)
+            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            await ctx.send("", embed=embed)
         elif exception.error_code == 415:
-            await ctx.send("415: Unsupported Media Type! No clue how you triggered this one.")
+            embed = discord.Embed(
+                title="415: Unsupported Media Type!",
+                description="I have no clue how you triggered this one.",
+                colour=0xCA0147)
+            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            await ctx.send("", embed=embed)
         elif exception.error_code == 429:
-            await ctx.send("429: Rate Limited Exceeded! Please wait a while.")
+            embed = discord.Embed(
+                title="429: Rate Limit Exceeded",
+                description="Please try again later",
+                colour=0xCA0147)
+            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            await ctx.send("", embed=embed)
         elif exception.error_code == 500:
-            await ctx.send("500: Internal Server Error! Please try again later.")
+            embed = discord.Embed(
+                title="500: Internal Server Error!",
+                description="Please try again later.",
+                colour=0xCA0147)
+            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            await ctx.send("", embed=embed)
         elif exception.error_code == 503:
-            await ctx.send("503: Service Unavailable! Please try again later")
+            embed = discord.Embed(
+                title="503: Service Unavailable!",
+                description="Please try again later.",
+                colour=0xCA0147)
+            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            await ctx.send("", embed=embed)
 
     @commands.command(ignore_extra=False)
     async def stats(self, ctx, sum_name: str, region=None):
