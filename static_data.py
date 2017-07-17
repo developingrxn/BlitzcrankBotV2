@@ -1,7 +1,7 @@
 import asyncio
 from discord.ext import commands
 
-class StaticData:
+class Help:
     """Commands that return helpful information."""
     def __init__(self, bot):
         self.bot = bot
@@ -9,7 +9,7 @@ class StaticData:
     @commands.command(no_pm=True)
     async def regions(self, ctx):
         """Lists valid regions"""
-        msg = "BR, EUNE, EUW, JP, KR, LAN, LAS, NA, OCE, PBE, RU, TR"
+        msg = "BR, EUNE, EUW, JP, KR, LAN, LAS, NA, OCE, RU, TR"
         await ctx.send("```fix\n" + msg + "\n```")
 
     @commands.command(no_pm=True)
@@ -26,6 +26,6 @@ class StaticData:
 
 def setup(bot):
     """Adds cog to bot"""
-    bot.add_cog(StaticData(bot))
+    bot.add_cog(Help(bot))
 
 #Base finished
