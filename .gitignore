@@ -1,3 +1,4 @@
 config.py
 discord.log
 *.pyc
+*.db
