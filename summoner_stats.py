@@ -1,11 +1,11 @@
 import discord
-import datetime
 from cassiopeia import riotapi
 from cassiopeia.type.api.exception import APIError
 from discord.ext import commands
 
 import config
 import database
+import utilities
 
 
 class Summoner:
@@ -22,49 +22,49 @@ class Summoner:
                 title="400: Bad Request!",
                 description="Please join the support server with b!support.",
                 colour=0xCA0147)
-            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
         elif exception.error_code == 403:
             embed = discord.Embed(
                 title="403: Forbidden!",
                 description="Most likely my API key has expired",
                 colour=0xCA0147)
-            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
         elif exception.error_code == 404:
             embed = discord.Embed(
                 title="404: Not Found!",
-                description="Could not find summoner {0} on {1}".format(sum_name, region),
+                description="Could not find summoner '{0}' on {1}".format(sum_name, region),
                 colour=0xCA0147)
-            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
         elif exception.error_code == 415:
             embed = discord.Embed(
                 title="415: Unsupported Media Type!",
                 description="I have no clue how you triggered this one.",
                 colour=0xCA0147)
-            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
         elif exception.error_code == 429:
             embed = discord.Embed(
                 title="429: Rate Limit Exceeded",
                 description="Please try again later",
                 colour=0xCA0147)
-            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
         elif exception.error_code == 500:
             embed = discord.Embed(
                 title="500: Internal Server Error!",
                 description="Please try again later.",
                 colour=0xCA0147)
-            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
         elif exception.error_code == 503:
             embed = discord.Embed(
                 title="503: Service Unavailable!",
                 description="Please try again later.",
                 colour=0xCA0147)
-            embed.set_footer(text=datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p"))
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
 
     @commands.command(ignore_extra=False)
@@ -75,25 +75,30 @@ class Summoner:
                 region = db.find_entry(ctx.guild.id)
                 db.close_connection()
             except TypeError:
-                error_msg = ("Please specify a region, or set a default region with `b!region "
-                             "set [region]`.")
-                await ctx.send(error_msg)
+                embed = utilities.error_embed(
+                    ctx, "Please specify a region, or set a default region with `b!region set [region]`.")
+                await ctx.send("", embed=embed)
                 return
 
         if "'" in sum_name:
-            await ctx.send("Please use quotation marks to enclose names")
+            embed = utilities.error_embed(ctx, "Please use quotation marks to enclose names")
+            await ctx.send("", embed=embed)
             return
 
         await ctx.trigger_typing()
-        riotapi.set_region(region)
+
+        try:
+            riotapi.set_region(region)
+        except ValueError:
+            embed = utilities.error_embed(
+                ctx, "{0} is not a valid region! Valid regions are listed in b!regions.".format(region))
+            await ctx.send("", embed=embed)
+            return
 
         try:
             summoner = riotapi.get_summoner_by_name(sum_name)
             leagues = riotapi.get_league_entries_by_summoner(summoner)
             top_champ = riotapi.get_top_champion_masteries(summoner, max_entries=3)
-        except AttributeError:
-            await ctx.send("Could not find champion, please check spelling!")
-            return
         except APIError as exception:
             await Summoner.raise_exception(self, ctx, exception, sum_name, region)
             return
@@ -104,27 +109,7 @@ class Summoner:
                                                top_champ[1].champion.name,
                                                top_champ[2].champion.name)
 
-        # Fixes URL for champions with spaces in their name (i.e Lee Sin)
-        if " " in top_champ[0].champion.name:
-            url_champ_name = top_champ[0].champion.name.replace(" ", "")
-            url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/{}.png'.format(
-                url_champ_name)
-
-        # Fixes URL for champions with an apostrophe in their name (i.e Vel'Koz)
-        # However the capitalisation is not standardised thus they have to be edited manually
-        elif "Vel'Koz" in top_champ[0].champion.name:
-            url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/Velkoz.png'
-        elif "Kha'Zix" in top_champ[0].champion.name:
-            url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/Khazix.png'
-        elif "Rek'Sai" in top_champ[0].champion.name:
-            url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/RekSai.png'
-        elif "Cho'Gath" in top_champ[0].champion.name:
-            url = 'http://ddragon.leagueoflegends.com/cdn/7.8.1/img/champion/Chogath.png'
-        elif "Kog'Maw" in top_champ[0].champion.name:
-            url = 'http://ddragon.leagueoflegends.com/cdn/7.8.1/img/champion/KogMaw.png'
-        else:
-            url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/{}.png'.format(
-                top_champ[0].champion.name)
+        url = utilities.fix_url(top_champ[0].champion.name)
 
         for league in leagues:
             loop += 1
@@ -147,6 +132,7 @@ class Summoner:
                 embed.add_field(name="W/L",
                                 value="{0}W - {1}L ({2:.0F}%)".format(wins, losses, ratio),
                                 inline=True)
+                embed.add_field(name=u"\u200B", value=u"\u200B", inline=False)
             elif queue == 'RANKED_FLEX_SR':
                 embed.add_field(name="Ranked Flex:", value=u'\u200B', inline=True)
                 embed.add_field(name="Division",
@@ -155,6 +141,7 @@ class Summoner:
                 embed.add_field(name="W/L",
                                 value="{0}W - {1}L ({2:.0F}%)".format(wins, losses, ratio),
                                 inline=True)
+                embed.add_field(name=u"\u200B", value=u"\u200B", inline=False)
             elif queue == 'RANKED_FLEX_TT':
                 embed.add_field(name="Ranked TT:", value=u'\u200B', inline=True)
                 embed.add_field(name="Division",
@@ -163,22 +150,72 @@ class Summoner:
                 embed.add_field(name="W/L",
                                 value="{0}W - {1}L ({2:.0F}%)".format(wins, losses, ratio),
                                 inline=True)
+                embed.add_field(name=u"\u200B", value=u"\u200B", inline=False)
 
             overall_ratio = (overall_wins / (overall_wins + overall_losses) * 100)
 
         value1 = "{0}W/{1}L ({2:.2f})%".format(overall_wins, overall_losses,
                                                overall_ratio)
-        op_gg = "https://{0}.op.gg/summoner/userName={1}".format(region, sum_name)
+        op_gg = "https://{0}.op.gg/summoner/userName={1}".format(region, sum_name.replace(" ", "%20"))
         embed.set_author(name="Summoner Lookup - {0} ({1})".format(sum_name, region),
                          url=op_gg, icon_url=url)
         embed.add_field(name="Overall:", value=u'\u200B', inline=True)
         embed.add_field(name="Top Champions", value=top_champs, inline=True)
         embed.add_field(name="W/L", value=value1, inline=True)
-        embed.set_footer(
-            text="Requested by: {0} | {1}".format(
-                ctx.author.name,
-                datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p")),
-            icon_url=ctx.author.avatar_url)
+        utilities.footer(ctx, embed)
+
+        await ctx.send("", embed=embed)
+
+    @commands.command(ignore_extra=False)
+    async def mastery(self, ctx, sum_name: str, champ_name: str, region=None):
+        if region is None:
+            try:
+                db = database.Database('guilds.db')
+                region = db.find_entry(ctx.guild.id)
+                db.close_connection()
+            except TypeError:
+                embed = utilities.error_embed(
+                    ctx, "Please specify a region, or set a default region with `b!region set [region]`.")
+                await ctx.send("", embed=embed)
+                return
+
+        if "'" in sum_name or "'" + champ_name + "'" in champ_name:
+            embed = utilities.error_embed(ctx, "Please use double quotes to enclose names.")
+            await ctx.send("", embed=embed)
+            return
+
+        try:
+            riotapi.set_region(region)
+        except ValueError:
+            embed = utilities.error_embed(
+                ctx, "{0} is not a valid region! Valid regions are listed in b!regions.".format(region))
+            await ctx.send("", embed=embed)
+            return
+
+        try:
+            summoner = riotapi.get_summoner_by_name(sum_name)
+            champion = riotapi.get_champion_by_name(champ_name)
+            mastery = riotapi.get_champion_mastery(summoner, champion)
+        except APIError as exception:
+            await Summoner.raise_exception(self, ctx, exception, sum_name, region)
+            return
+        except AttributeError:
+            embed = utilities.error_embed(
+                ctx, "Could not find champion '{0}'. Please remember capitals.".format(champ_name))
+            utilities.footer(ctx, embed)
+            await ctx.send("", embed=embed)
+            return
+
+        url = utilities.fix_url(champ_name)
+
+        embed = discord.Embed(colour=0x1AFFA7)
+        op_gg = "https://{0}.op.gg/summoner/userName={1}".format(region, sum_name.replace(" ", "%20"))
+        embed.set_author(name="{0} Mastery - {1} ({2})".format(champion.name,
+                                                               summoner.name, region), url=op_gg, icon_url=url)
+        embed.add_field(name="Champion Level:", value=mastery.level, inline=True)
+        embed.add_field(name="Mastery Points:", value=mastery.points, inline=True)
+        embed.add_field(name="Points to next level:", value=mastery.points_until_next_level, inline=True)
+        utilities.footer(ctx, embed)
 
         await ctx.send("", embed=embed)
 
@@ -186,7 +223,4 @@ class Summoner:
 def setup(bot):
     bot.add_cog(Summoner(bot))
 
-    # TODO: SQL DB for default region per server.
-    # Migrating V1 to dpy rewrite
     # More commands from API
-    # Better formatting of final embed
