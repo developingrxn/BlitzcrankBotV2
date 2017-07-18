@@ -3,6 +3,7 @@ import logging
 import traceback
 
 import config
+import database
 
 import discord
 from discord.ext import commands
@@ -123,6 +124,13 @@ class BlitzcrankBot(commands.AutoShardedBot):
             embed.add_field(name="Total:", value=len(self.guilds), inline=True)
             channel = self.get_channel(295831639219634177)
             await channel.send('', embed=embed)
+            await guild.default_channel.send(
+                "Beep, boop! To set up a default LoL region for my lookup commands, "
+                "please use the `b!region set` command! (Example, `b!region set OCE`)")
+            db = database.Database("guilds.db")
+            db.add_table(str(guild.id))
+            db.close_connection()
+            
 
     def run(self):
         super().run(self.bot_token, reconnect=True)
