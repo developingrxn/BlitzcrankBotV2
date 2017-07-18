@@ -10,6 +10,33 @@ class Database:
         self.database = sqlite3.connect(database)
         self.cursor = self.database.cursor()
 
+
+    def add_table(self, guild_id: str):
+        """Add a table for a given guild"""
+        self.cursor.execute('''
+                            CREATE TABLE {}(sum_name TEXT, region TEXT)
+                            '''.format("_" + guild_id))
+        self.database.commit()
+
+    def add_user(self, guild_id: str, sum_name: str, region: str):
+        """Add a given user and region to a given guild"""
+        self.cursor.execute('''
+                            INSERT INTO {}(sum_name, region)
+                            VALUES(?,?)
+                            '''.format("_" + guild_id), (sum_name.title(), region))
+        self.database.commit()
+
+    def find_user(self, guild_id: str, sum_name: str):
+        """Find a given user in a given guild"""
+        try:
+            self.cursor.execute('''
+                                SELECT region FROM {} WHERE sum_name = {}
+                                '''.format("_" + guild_id, sum_name.title()))
+        except sqlite3.OperationalError:
+            return None
+        user = self.cursor.fetchone()
+        return user[0]
+
     def add_entry(self, guild_id: int, region: str):
         """Add default region for a given guild"""
         self.cursor.execute('''

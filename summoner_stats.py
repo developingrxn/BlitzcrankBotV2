@@ -2,7 +2,7 @@ import discord
 from cassiopeia import riotapi
 from cassiopeia.type.api.exception import APIError
 from discord.ext import commands
-
+from sqlite3 import OperationalError
 import config
 import database
 import utilities
@@ -102,6 +102,12 @@ class Summoner:
         except APIError as exception:
             await Summoner.raise_exception(self, ctx, exception, sum_name, region)
             return
+
+        db = database.Database("guilds.db")
+        user = db.find_user(str(ctx.guild.id), sum_name)
+        if user is None:
+            db.add_user(str(ctx.guild.id), sum_name, region)
+            db.close_connection()
 
         embed = discord.Embed(colour=0x1affa7)
         loop, overall_wins, overall_losses = 0, 0, 0
