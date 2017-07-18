@@ -42,7 +42,7 @@ class ServerRegion:
     async def set(self, ctx, region: str):
         try:
             riotapi.set_region(region)
-        except BaseException:
+        except ValueError:
             embed = discord.Embed(
                 title="Error!",
                 description="{0} is not a valid region!".format(region),
@@ -74,7 +74,7 @@ class ServerRegion:
     async def update(self, ctx, region: str):
         try:
             riotapi.set_region(region)
-        except BaseException:
+        except ValueError:
             embed = discord.Embed(
                 title="Error!",
                 description="{0} is not a valid region!".format(region),
