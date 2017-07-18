@@ -80,7 +80,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
         error_msg = ''
         self.logger1.error(str(error))
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("Missing required argument")
+            await ctx.send(error)
         elif isinstance(error, commands.TooManyArguments):
             error_msg = ('Too many arguments! If you are trying to use a champion or summoner name '
                          'that has a space, please enclose it in ""s (double quotes)')
