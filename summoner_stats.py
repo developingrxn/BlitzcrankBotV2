@@ -92,7 +92,7 @@ class Summoner:
             riotapi.set_region(region)
         except ValueError:
             embed = utilities.error_embed(
-                ctx, "{0} is not a valid region! Valid regions are listed in b!regions.".format(region))
+                ctx, "{0} is not a valid region! Valid regions are listed in `b!region list`.".format(region))
             await ctx.send("", embed=embed)
             return
 
@@ -196,7 +196,7 @@ class Summoner:
             riotapi.set_region(region)
         except ValueError:
             embed = utilities.error_embed(
-                ctx, "{0} is not a valid region! Valid regions are listed in b!regions.".format(region))
+                ctx, "{0} is not a valid region! Valid regions are listed in `b!regions list`.".format(region))
             await ctx.send("", embed=embed)
             return
 
