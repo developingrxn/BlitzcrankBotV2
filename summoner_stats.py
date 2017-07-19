@@ -116,7 +116,7 @@ class Summoner:
                                                top_champ[1].champion.name,
                                                top_champ[2].champion.name)
 
-        url = utilities.fix_url(top_champ[0].champion.name)
+        url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/{}.png'.format(summoner.profile_icon_id)
 
         for league in leagues:
             loop += 1
