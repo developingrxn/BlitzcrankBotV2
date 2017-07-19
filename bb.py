@@ -92,7 +92,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
             if str(error).find("ValueError") is not -1:
                 error_msg = 'That is not a valid region!'
             elif isinstance(original, discord.Forbidden):
-                await ctx.send("I need to have the 'embed links' permission to run properly!")
+                error_msg = ("I need to have the 'embed links' permission to run properly!")
             else:
                 error_msg = 'Something unexpected went wrong, sorry :I'
 
