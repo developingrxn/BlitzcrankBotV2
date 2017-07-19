@@ -3,6 +3,7 @@ import sqlite3
 
 class Database:
     """Default region handling"""
+
     database = ''
     cursor = ''
 
@@ -10,12 +11,12 @@ class Database:
         self.database = sqlite3.connect(database)
         self.cursor = self.database.cursor()
 
-
     def add_table(self, guild_id: str):
         """Add a table for a given guild"""
         self.cursor.execute('''
                             CREATE TABLE {}(sum_name TEXT, region TEXT)
-                            '''.format("_" + guild_id))
+                            '''.format("_" + guild_id)
+                            )
         self.database.commit()
 
     def add_user(self, guild_id: str, sum_name: str, region: str):
@@ -23,7 +24,8 @@ class Database:
         self.cursor.execute('''
                             INSERT INTO {}(sum_name, region)
                             VALUES(?,?)
-                            '''.format("_" + guild_id), (sum_name.title(), region))
+                            '''.format("_" + guild_id), (sum_name.title(), region)
+                            )
         self.database.commit()
 
     def find_user(self, guild_id: str, sum_name: str):
@@ -31,7 +33,8 @@ class Database:
         try:
             self.cursor.execute('''
                                 SELECT region FROM {} WHERE sum_name = {}
-                                '''.format("_" + guild_id, sum_name.title()))
+                                '''.format("_" + guild_id, sum_name.title())
+                                )
         except sqlite3.OperationalError:
             return None
         user = self.cursor.fetchone()
@@ -42,28 +45,32 @@ class Database:
         self.cursor.execute('''
                             INSERT INTO guilds(guild_id, region)
                             VALUES(?,?)
-                            ''', (guild_id, region))
+                            ''', (guild_id, region)
+                            )
         self.database.commit()
 
     def remove_entry(self, guild_id: int):
         """Remove default region for a given guild"""
         self.cursor.execute('''
                             DELETE FROM guilds WHERE guild_id = ?
-                            ''', (guild_id,))
+                            ''', (guild_id,)
+                            )
         self.database.commit()
 
     def update_entry(self, guild_id: int, region: str):
         """Update default region for a given guild"""
         self.cursor.execute('''
                             UPDATE guilds SET region = ? WHERE guild_id = ?
-                            ''', (region, guild_id))
+                            ''', (region, guild_id)
+                            )
         self.database.commit()
 
     def find_entry(self, guild_id: int):
         """Find default region for a given guild"""
         self.cursor.execute('''
                             SELECT region FROM guilds WHERE guild_id = ?
-                            ''', (guild_id,))
+                            ''', (guild_id,)
+                            )
         region = self.cursor.fetchone()
         return region[0]
 
