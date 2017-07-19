@@ -34,7 +34,7 @@ The region commands (b!region set, etc) are part of Blitzcrank Bot's ability to 
 You can specify which region Blitzcrank Bot should use at the end of the usual command! For example, if the default region of your server was NA, but your account was on EUW, you can use `b!search [User] EUW`.
 
 ## Troubleshooting
-
+**99% of issues with the bot can be solved by enclosing Summoner and Champion names in quotation marks (i.e "Lee Sin")**
 ### The bot tells me some part of my name isn't a valid region
 Unfortunately, if your Summoner name contains a space (i.e Super Frosty), you must enclose the name in quotation marks like so: "Super Frosty".
 
