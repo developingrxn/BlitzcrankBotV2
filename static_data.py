@@ -1,4 +1,5 @@
 import asyncio
+import utilities
 from discord import Embed
 from discord.ext import commands
 
@@ -27,6 +28,7 @@ class Help:
             embed.add_field(name="b!region remove", value="Removes server's default region", inline=True)
             embed.add_field(name="b!region list", value="Show a list of all valid regions", inline=False)
             embed.add_field(name="Other commands:", value="Other commands can be listed with b!help more", inline=True)
+            utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
     
     @help.command()
