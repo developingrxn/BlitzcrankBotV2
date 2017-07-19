@@ -47,7 +47,7 @@ class Summoner:
             await ctx.send("", embed=embed)
         elif exception.error_code == 429:
             embed = discord.Embed(
-                title="429: Rate Limit Exceeded",
+                title="429: Rate Limit Exceeded!",
                 description="Please try again later",
                 colour=0xCA0147)
             utilities.footer(ctx, embed)
@@ -69,6 +69,7 @@ class Summoner:
 
     @commands.command(ignore_extra=False)
     async def stats(self, ctx, sum_name: str, region=None):
+        """'Summoner Name' '[optional] Region'"""
         if region is None:
             try:
                 db = database.Database('guilds.db')
@@ -174,6 +175,7 @@ class Summoner:
 
     @commands.command(ignore_extra=False)
     async def mastery(self, ctx, sum_name: str, champ_name: str, region=None):
+        """'Summoner Name' 'Champion Name' '[optional] Region'"""
         if region is None:
             try:
                 db = database.Database('guilds.db')
