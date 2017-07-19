@@ -9,7 +9,7 @@ class Reload:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(no_pm=True)
+    @commands.command(no_pm=True, hidden=True, description="Test")
     async def reload(self, ctx, *, module: str):
         """Reloads the specified module."""
         if ctx.message.author.id == config.OWNER_ID:

@@ -109,7 +109,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
             await guild.default_channel.send("To avoid bot collection servers, I auto leave any "
                                              "server where 55% or above of the users are bots, "
                                              "sorry!")
-            await guild.leave(guild)
+            await guild.leave()
             embed = discord.Embed(title="Left Server", colour=0x1affa7)
             embed.add_field(name="Server:", value=guild.name, inline=True)
             embed.add_field(name="Reason:", value="Bot collection server", inline=True)
