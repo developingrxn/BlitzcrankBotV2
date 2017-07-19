@@ -44,54 +44,27 @@ class BlitzcrankBot(commands.AutoShardedBot):
         print('Logged in as:\n{0} (ID: {0.id})'.format(self.user))
         print('--------------------------------')
 
-    async def on_message(self, message):
-        """Functions that are not part of ext for various reasons."""
-        # eval command here because idk how to get it to work in cogs
-        if message.content.startswith('b!eval') and message.author.id == config.OWNER_ID:
-            parameters = ' '.join(message.content.strip().split(' ')[1:])
-            output = None
-            try:
-                temp = 'Executing: ' + message.content + ' one moment, please...'
-                originalmessage = await message.channel.send(temp)
-                output = eval(parameters)
-            except Exception:
-                error = "```fix\n" + str(traceback.format_exc()) + "\n```"
-                await originalmessage.edit(content=error)
-                traceback.print_exc()
-            if asyncio.iscoroutine(output):
-                output = await output
-            if output:
-                success = "```fix\n" + str(output) + "\n```"
-                await originalmessage.edit(content=success)
-        await self.process_commands(message)
-
     async def on_command(self, ctx):
-        message = ctx.message
+        """Log command calls to file"""
         destination = None
         if isinstance(ctx.channel, discord.abc.PrivateChannel):
             destination = 'Private message'
         else:
-            destination = '#{0.channel.name}: {0.guild.name})'.format(message)
+            destination = '#{0.channel.name}: {0.guild.name})'.format(ctx.message)
 
-        self.logger1.info('{0.created_at}: {0.author} in {1}: {0.content}'.format(message,
-                                                                                  destination))
+        self.logger1.info('{0.created_at}: {0.author} in {1}: {0.content}'.format(ctx.message, destination))
 
     async def on_command_error(self, ctx, error):
         """Error handling"""
-        error_msg = ''
+        error_msg = None
         self.logger1.error(ctx.message.content + ": " + str(error))
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(error)
         elif isinstance(error, commands.CommandNotFound):
             pass
-        elif isinstance(error, commands.TooManyArguments):
-            error_msg = ('Too many arguments! If you are trying to use a champion or summoner name '
-                         'that has a space, please enclose it in ""s (double quotes)')
         elif isinstance(error, commands.CommandInvokeError):
             original = error.original
-            if str(error).find("ValueError") is not -1:
-                error_msg = 'That is not a valid region!'
-            elif isinstance(original, discord.Forbidden):
+            if isinstance(original, discord.Forbidden):
                 error_msg = ("I need to have the 'embed links' permission to run properly!")
             else:
                 error_msg = 'Something unexpected went wrong, sorry :I'
@@ -99,8 +72,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
             print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
             print(error)
             await ctx.send(error_msg)
-            await ctx.send("If you feel like this shouldn't be happening, "
-                           "feel free to join my support server with b!support")
+            await ctx.send("If you feel like this shouldn't be happening, feel free to join my support server with b!support.")
         else:
             print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
             print(str(error))
@@ -111,9 +83,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
         members = len(guild.members)
         if len(l) / members >= .55:
             bots = "{0}% bots".format(100 * (len(l) / members))
-            await guild.default_channel.send("To avoid bot collection servers, I auto leave any "
-                                             "server where 55% or above of the users are bots, "
-                                             "sorry!")
+            await guild.default_channel.send("To avoid bot collection servers, I auto leave any server where 55% or above of the users are bots, sorry!")
             await guild.leave()
             embed = discord.Embed(title="Left Server", colour=0x1affa7)
             embed.add_field(name="Server:", value=guild.name, inline=True)
@@ -129,13 +99,10 @@ class BlitzcrankBot(commands.AutoShardedBot):
             embed.add_field(name="Total:", value=len(self.guilds), inline=True)
             channel = self.get_channel(295831639219634177)
             await channel.send('', embed=embed)
-            await guild.default_channel.send(
-                "Beep, boop! To set up a default LoL region for my lookup commands, "
-                "please use the `b!region set` command! (Example, `b!region set OCE`)")
+            await guild.default_channel.send("Beep, boop! To set up a default LoL region for my lookup commands, please use the `b!region set` command! (Example, `b!region set OCE`)")
             db = database.Database("guilds.db")
             db.add_table(str(guild.id))
             db.close_connection()
-            
 
     def run(self):
         super().run(self.bot_token, reconnect=True)

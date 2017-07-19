@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import logging
 import time
@@ -7,9 +8,9 @@ from discord.ext import commands
 
 import config
 
-log = logging.getLogger()
-startTime = time.localtime()
+start_time = time.localtime()
 
+wrap = "```py\n{}\n```"
 
 class Utilities:
     """ Commands relating to the Blitzcrank Bot's operations."""
@@ -20,28 +21,26 @@ class Utilities:
     @commands.command(no_pm=True)
     async def ping(self, ctx):
         """Tests response time."""
-        pingStart = time.time()
+        ping_start = time.time()
         msg = await ctx.send('Pong!')
-        pingEnd = time.time()
-        pingDiff = pingEnd - pingStart
-        response = 'Pong! completed in {}s.'.format(pingDiff)
+        ping_end = time.time()
+        ping_diff = ping_end - ping_start
+        response = 'Pong! completed in {}s.'.format(ping_diff)
         await msg.edit(content=response)
 
     @commands.command(no_pm=True)
     async def uptime(self, ctx):
         """Return's Blitzcrank Bot's uptime."""
-        compareTime = time.localtime()
-        elapsedTime = time.mktime(compareTime) - time.mktime(startTime)
-        response = "Running for {}".format(datetime.timedelta(seconds=elapsedTime))
+        compare_time = time.localtime()
+        elapsed_time = time.mktime(compare_time) - time.mktime(start_time)
+        response = "Running for {}".format(datetime.timedelta(seconds=elapsed_time))
         await ctx.send(response)
 
     @commands.command(no_pm=True, hidden=True)
+    @commands.is_owner()
     async def shutdown(self, ctx):
-        if ctx.message.author.id == config.OWNER_ID:
-            await ctx.send("Shutting down.")
-            await self.bot.logout()
-        else:
-            await ctx.send("Sorry, you don't have permission to use that command!")
+        await ctx.send("Shutting down.")
+        await self.bot.logout()
 
     @commands.command(no_pm=True)
     async def info(self, ctx):
@@ -49,12 +48,23 @@ class Utilities:
                 "summoner look ups. Written using discord.py by "
                 "Frosty ☃#5263.")
         await ctx.send(info)
+    
+    @commands.command(hidden=True, name="eval")
+    @commands.is_owner()
+    async def _eval(self, ctx, *, code : str):
+        try:
+            result = eval(code)
+            if asyncio.iscoroutine(result):
+                await result
+            else:
+                await ctx.send(wrap.format(result))
+        except Exception as e: # pylint: disable=bare-except
+            await ctx.send(wrap.format(type(e).__name__ + ': ' + str(e)))
 
 
 def footer(ctx, embed: Embed):
     return embed.set_footer(
-        text="Requested by: {0} | {1}".format(ctx.author.name,
-                                              datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p")),
+        text="Requested by: {0} | {1}".format(ctx.author.name, datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p")),
         icon_url=ctx.author.avatar_url)
 
 
@@ -68,7 +78,6 @@ def fix_url(champ: str):
     if " " in champ:
         url_friendly_name = champ.replace(" ", "")
         url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/{}.png'.format(url_friendly_name)
-
     elif "Vel'Koz" in champ:
         url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/Velkoz.png'
     elif "Kha'Zix" in champ:
