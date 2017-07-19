@@ -79,7 +79,7 @@ class BlitzcrankBot(commands.AutoShardedBot):
     async def on_command_error(self, ctx, error):
         """Error handling"""
         error_msg = ''
-        self.logger1.error(str(error))
+        self.logger1.error(ctx.message.content + ": " + str(error))
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(error)
         elif isinstance(error, commands.CommandNotFound):
@@ -88,19 +88,22 @@ class BlitzcrankBot(commands.AutoShardedBot):
             error_msg = ('Too many arguments! If you are trying to use a champion or summoner name '
                          'that has a space, please enclose it in ""s (double quotes)')
         elif isinstance(error, commands.CommandInvokeError):
+            original = error.original
             if str(error).find("ValueError") is not -1:
                 error_msg = 'That is not a valid region!'
+            elif isinstance(original, discord.Forbidden):
+                await ctx.send("I need to have the 'embed links' permission to run properly!")
             else:
                 error_msg = 'Something unexpected went wrong, sorry :I'
 
-            print(ctx.message.content)
+            print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
             print(error)
             await ctx.send(error_msg)
             await ctx.send("If you feel like this shouldn't be happening, "
                            "feel free to join my support server with b!support")
         else:
+            print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
             print(str(error))
-            self.logger1.error(ctx.message.content + ": " + str(error))
 
     async def on_guild_join(self, guild):
         """Check for bot collection"""
