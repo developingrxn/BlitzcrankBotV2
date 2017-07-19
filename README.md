@@ -28,7 +28,7 @@ b!ingame|b!game Riviere|Retrieves information about the user's current game
 ## FAQ
 
 ### What are the region commands?
-The region commands (b!region set, etc) are part of Blitzcrank Bot's ability to set a default region per server. This means that you don't have to add the region as an argument to every command.
+The region commands (b!region set, etc) are part of Blitzcrank Bot's ability to set a default region per server. This means that you don't have to add the region as an argument to every command!
 
 ### But what if my account is on a different region to the default?
 You can specify which region Blitzcrank Bot should use at the end of the usual command! For example, if the default region of your server was NA, but your account was on EUW, you can use `b!search [User] EUW`.
@@ -44,5 +44,8 @@ Same as above, either your summoner name has a space, the champion name has a sp
 ### The bot doesn't respond at all!
 This happens when your name has a space _and_ you specified a region, or _both_ your summoner name and champion name have a space. See above, enclose name in quotation marks.
 
+### The bot complains about permissions!
+Blitzcrank Bot needs the 'embed links' permission, either at the role or channel level, since it sends messages using rich embeds.
+
 ### "Something unexpected went wrong!"
-I've done my best to catch all errors and display proper messages, but some slip through. This is that message. Join the support server or dm me with details and I'll try to help.
+I've done my best to catch all exceptions and display proper error messages, but some slip through. This is that message. Join the support server or dm me with details and I'll try to help.
