@@ -212,6 +212,49 @@ class Summoner:
         utilities.footer(ctx, embed)
         await ctx.send("", embed=embed)
 
+    @commands.command(no_pm=True)
+    @commands.is_owner()
+    async def game(self, ctx, sum_name: str, region: str):
+
+        if region is None:
+            try:
+                db = database.Database('guilds.db')
+                region = db.find_entry(ctx.guild.id)
+                db.close_connection()
+            except TypeError:
+                embed = utilities.error_embed(ctx, "Please specify a region, or set a default region with `b!region set [region]`.")
+                await ctx.send("", embed=embed)
+                return
+
+        if "'" in sum_name:
+            embed = utilities.error_embed(ctx, "Please use quotation marks to enclose names")
+            await ctx.send("", embed=embed)
+            return
+
+        await ctx.trigger_typing()
+
+        try:
+            riotapi.set_region(region)
+        except ValueError:
+            embed = utilities.error_embed(ctx, "{0} is not a valid region! Valid regions are listed in `b!region list`.".format(region))
+            await ctx.send("", embed=embed)
+            return
+
+        try:
+            summoner = riotapi.get_summoner_by_name(sum_name)
+            game = riotapi.get_current_game(summoner)
+        except APIError as exception:
+            await Summoner.raise_exception(self, ctx, exception, sum_name, region)
+            return
+
+        try:
+            does_game_exist = game.id
+        except AttributeError:
+            embed = utilities.error_embed(ctx, "{} is not in an active game!".format(summoner.name))
+            await ctx.send("", embed=embed)
+            return
+
+        
 
 def setup(bot):
     bot.add_cog(Summoner(bot))
