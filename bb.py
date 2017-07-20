@@ -44,6 +44,11 @@ class BlitzcrankBot(commands.AutoShardedBot):
         print('Logged in as:\n{0} (ID: {0.id})'.format(self.user))
         print('--------------------------------')
 
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+        await self.process_commands(message)
+
     async def on_command(self, ctx):
         """Log command calls to file"""
         destination = None
