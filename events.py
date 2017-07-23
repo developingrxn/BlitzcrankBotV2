@@ -106,13 +106,13 @@ class Events:
             embed.add_field(name="Total:", value=len(self.bot.guilds), inline=True)
             channel = self.bot.get_channel(295831639219634177)
             await channel.send('', embed=embed)
-            #await guild.default_channel.send("Beep, boop! To set up a default LoL region for my lookup commands, please use the `b!region set` command! (Example, `b!region set OCE`)")
+            await guild.default_channel.send("Beep, boop! To set up a default LoL region for my lookup commands, please use the `b!region set` command! (Example, `b!region set OCE`)")
             db = database.Database("guilds.db")
             db.add_table(str(guild.id))
             db.close_connection()
             await self.post_stats()
     
-    async def on_guild_remove():
+    async def on_guild_remove(self):
         await self.post_stats()
 
 def setup(bot):
