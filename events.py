@@ -117,7 +117,7 @@ class Events:
             db.close_connection()
             await self.post_stats()
     
-    async def on_guild_remove(self):
+    async def on_guild_remove(self, guild):
         await self.post_stats()
 
 def setup(bot):
