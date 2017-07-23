@@ -49,3 +49,6 @@ Blitzcrank Bot needs the 'embed links' permission, either at the role or channel
 
 ### "Something unexpected went wrong!"
 I've done my best to catch all exceptions and display proper error messages, but some slip through. This is that message. Join the support server or dm me with details and I'll try to help.
+
+## Enquiries
+Questions, enquiries, etc. can be directed towards Frosty ☃#5263 on Discord or, by email: apal0934@uni.sydney.edu.au
