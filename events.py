@@ -37,12 +37,8 @@ class Events:
         for shard in sharded_guilds:
             d.append(sharded_guilds[shard])
         dbots_org_payload = json.dumps({'shards': d})
-        print(dbots_org_payload)
-        print(dbots_payload)
-        resp1 = requests.post(dbots_url, data=dbots_payload, headers=dbots_header)
-        resp2 = requests.post(dbots_org_url, data=dbots_org_payload, headers=dbots_org_header)
-        print(resp1)
-        print(resp2)
+        requests.post(dbots_url, data=dbots_payload, headers=dbots_header)
+        requests.post(dbots_org_url, data=dbots_org_payload, headers=dbots_org_header)
 
     async def on_ready(self):
         """Sets game presence and indicates when ready."""
