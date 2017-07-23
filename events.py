@@ -1,3 +1,8 @@
+'''
+Created on 23Jul.,2017
+
+@author: Alex Palmer | SuperFrosty
+'''
 import json
 import logging
 import requests

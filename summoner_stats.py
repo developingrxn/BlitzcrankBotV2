@@ -1,3 +1,8 @@
+'''
+Created on 15Jul.,2017
+
+@author: Alex Palmer | SuperFrosty
+'''
 import discord
 from cassiopeia import riotapi
 from cassiopeia.type.api.exception import APIError

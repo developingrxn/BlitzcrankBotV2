@@ -1,3 +1,8 @@
+'''
+Created on 17Jul.,2017
+
+@author: Alex Palmer | SuperFrosty
+'''
 import asyncio
 import datetime
 import logging

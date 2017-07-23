@@ -1,3 +1,8 @@
+'''
+Created on 10Feb.,2017
+
+@author: Alex Palmer | SuperFrosty
+'''
 from discord.ext import commands
 
 import config

@@ -1,3 +1,8 @@
+'''
+Created on 15Jul.,2017
+
+@author: Alex Palmer | SuperFrosty
+'''
 import asyncio
 import utilities
 from discord import Embed
