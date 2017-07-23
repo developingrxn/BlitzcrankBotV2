@@ -13,11 +13,14 @@ class Database:
 
     def add_table(self, guild_id: str):
         """Add a table for a given guild"""
-        self.cursor.execute('''
-                            CREATE TABLE {}(sum_name TEXT, region TEXT)
-                            '''.format("_" + guild_id)
-                            )
-        self.database.commit()
+        try:
+            self.cursor.execute('''
+                                CREATE TABLE {}(sum_name TEXT, region TEXT)
+                                '''.format("_" + guild_id)
+                                )
+            self.database.commit()
+        except sqlite3.OperationalError:
+            pass
 
     def add_user(self, guild_id: str, sum_name: str, region: str):
         """Add a given user and region to a given guild"""
