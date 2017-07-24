@@ -72,7 +72,7 @@ class Summoner:
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
 
-    @commands.command(ignore_extra=False, no_pm=True)
+    @commands.command(no_pm=True)
     async def search(self, ctx, sum_name: str, region=None):
         """'Summoner Name' '[optional] Region'"""
         if region is None:
@@ -169,7 +169,7 @@ class Summoner:
         utilities.footer(ctx, embed)
         await ctx.send("", embed=embed)
 
-    @commands.command(ignore_extra=False, no_pm=True)
+    @commands.command(no_pm=True)
     async def mastery(self, ctx, sum_name: str, champ_name: str, region=None):
         """'Summoner Name' 'Champion Name' '[optional] Region'"""
         if region is None:
