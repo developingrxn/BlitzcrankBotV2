@@ -62,10 +62,10 @@ class Help:
     
     @help.command()
     async def more(self, ctx):
-        embed = discord.Embed(colour=0x1AFFA7)
+        embed = Embed(colour=0x1AFFA7)
         embed.set_author(name="Blitzcrank Bot - Commands:", icon_url=self.bot.user.avatar_url)
         embed.add_field(name="b!invite",
-                        value="Invite Blitzcrank to your server!"
+                        value="Invite Blitzcrank to your server!",
                         inline=False)
         embed.add_field(name="b!support",
                         value="Ask for help in the support server!",
