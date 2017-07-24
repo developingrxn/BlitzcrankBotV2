@@ -2,7 +2,7 @@
 
 Blitzcrank Bot is a Discord bot in its second iteration that retrieves useful information about League of Legends players.
 
-Invite link: **Still in production :)**
+Invite link: **[Click here!](https://discordapp.com/oauth2/authorize?client_id=282765243862614016&scope=bot&permissions=19456)**
 
 ### Commands
 
