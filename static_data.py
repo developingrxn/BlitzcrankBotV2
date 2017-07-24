@@ -62,7 +62,25 @@ class Help:
     
     @help.command()
     async def more(self, ctx):
-        await ctx.send("Coming later! Don't worry, all the important commands are already listed!")
+        embed = discord.Embed(colour=0x1AFFA7)
+        embed.set_author(name="Blitzcrank Bot - Commands:", icon_url=self.bot.user.avatar_url)
+        embed.add_field(name="b!invite",
+                        value="Invite Blitzcrank to your server!"
+                        inline=False)
+        embed.add_field(name="b!support",
+                        value="Ask for help in the support server!",
+                        inline=False)
+        embed.add_field(name="b!ping",
+                        value="Tests response time.",
+                        inline=False)
+        embed.add_field(name="b!uptime",
+                        value="Return's time since last reboot.",
+                        inline=False)
+        embed.add_field(name="b!info",
+                        value="Returns basic info about Blitzcrank.",
+                        inline=False)
+        utilities.footer(ctx, embed)
+        await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)
     async def invite(self, ctx):
