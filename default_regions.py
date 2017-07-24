@@ -25,7 +25,7 @@ class ServerRegion:
     async def region(self, ctx):
         """Commands for a server's default region"""
         if ctx.invoked_subcommand is None:
-            await ctx.send("Available commands are: `view, set, update, remove`")
+            await ctx.send("Available region commands are: `view, set, update, remove`")
 
     @region.command(no_pm=True)
     async def view(self, ctx):
