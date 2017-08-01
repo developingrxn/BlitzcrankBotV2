@@ -4,6 +4,7 @@ Blitzcrank Bot is a Discord bot in its second iteration that retrieves useful in
 
 Invite link: **[Click here!](https://discordapp.com/oauth2/authorize?client_id=282765243862614016&scope=bot&permissions=19456)**
 
+Support Server: **[Click here!](https://discordapp.com/invite/J78uAgZ)**
 ### Commands
 
 Command | Usage | Description
