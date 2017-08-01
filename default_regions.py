@@ -7,14 +7,12 @@ import datetime
 import sqlite3
 
 import discord
-from cassiopeia import riotapi
+from cassiopeia.core import Summoner
 from discord.ext import commands
 
 import utilities
 import config
 import database
-
-riotapi.set_api_key(config.API)
 
 
 class ServerRegion:
@@ -50,7 +48,7 @@ class ServerRegion:
     async def set(self, ctx, region: str):
         """Set your server's default region"""
         try:
-            riotapi.set_region(region)
+            Summoner(name="", region=region)
         except ValueError:
             embed = discord.Embed(
                 title="Error!",
@@ -83,7 +81,7 @@ class ServerRegion:
     async def update(self, ctx, region: str):
         """Update your server's default region"""
         try:
-            riotapi.set_region(region)
+            Summoner(name="", region=region)
         except ValueError:
             embed = discord.Embed(
                 title="Error!",

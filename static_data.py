@@ -59,7 +59,7 @@ class Help:
                             inline=True)
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
-    
+
     @help.command()
     async def more(self, ctx):
         embed = Embed(colour=0x1AFFA7)
