@@ -172,7 +172,11 @@ class SummonerStats:
         except APIRequestError as exception:
             await SummonerStats.raise_exception(self, ctx, exception, sum_name, region)
             return
-        overall_ratio = (overall_wins / (overall_wins + overall_losses) * 100)
+        try:
+            overall_ratio = (overall_wins / (overall_wins + overall_losses) * 100)
+        except ZeroDivisionError:
+            embed = utilities.error_embed(ctx, "Your account has no ranked statistics!")
+            return
 
         overall = "{0}W/{1}L ({2:.2f})%".format(overall_wins, overall_losses, overall_ratio)
         op_gg = "https://{0}.op.gg/summoner/userName={1}".format(region, sum_name.replace(" ", "%20"))
