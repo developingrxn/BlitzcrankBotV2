@@ -11,7 +11,7 @@ Command | Usage | Description
 --------|-------|------------
 b!search|b!search Riviere| Retrieves ranked statistics for a given user
 b!mastery|b!mastery Riviere Sivir| Retrieves champion mastery information for a given user
-b!game|b!game Riviere| Retrieves the the players and champions in a given user's game
+b!game|b!game Riviere| Retrieves a given user's current game
 b!region view||Retrieves a server's default region
 b!region set|b!region set OCE|Sets a server's default region
 b!region update|b!region update OCE|Updates a server's default region
