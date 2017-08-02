@@ -243,7 +243,7 @@ class SummonerStats:
         await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)
-    async def game(self, ctx, sum_name: str, region=region):
+    async def game(self, ctx, sum_name: str, region=None):
 
         if region is None:
             try:
