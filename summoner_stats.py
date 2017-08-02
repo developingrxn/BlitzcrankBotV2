@@ -5,8 +5,9 @@ Created on 15Jul.,2017
 '''
 import discord
 import cassiopeia as cass
-from cassiopeia.core import Summoner
+from cassiopeia.core import Summoner, Champion
 from cassiopeia.datastores.riotapi.common import APIRequestError
+from datapipelines.common import NotFoundError
 from discord.ext import commands
 from sqlite3 import OperationalError
 import config
@@ -151,7 +152,6 @@ class SummonerStats:
                     embed.add_field(name="W/L",
                                     value="{0}W - {1}L ({2:.0F}%)".format(wins, losses, ratio),
                                     inline=True)
-                    embed.add_field(name=u"\u200B", value=u"\u200B", inline=False)
                 elif queue == 'RANKED_FLEX_SR':
                     embed.add_field(name="Ranked Flex:", value=u'\u200B', inline=True)
                     embed.add_field(name="Division",
@@ -160,7 +160,6 @@ class SummonerStats:
                     embed.add_field(name="W/L",
                                     value="{0}W - {1}L ({2:.0F}%)".format(wins, losses, ratio),
                                     inline=True)
-                    embed.add_field(name=u"\u200B", value=u"\u200B", inline=False)
                 elif queue == 'RANKED_FLEX_TT':
                     embed.add_field(name="Ranked TT:", value=u'\u200B', inline=True)
                     embed.add_field(name="Division",
@@ -169,7 +168,6 @@ class SummonerStats:
                     embed.add_field(name="W/L",
                                     value="{0}W - {1}L ({2:.0F}%)".format(wins, losses, ratio),
                                     inline=True)
-                    embed.add_field(name=u"\u200B", value=u"\u200B", inline=False)
         except APIRequestError as exception:
             await SummonerStats.raise_exception(self, ctx, exception, sum_name, region)
             return
@@ -245,8 +243,7 @@ class SummonerStats:
         await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)
-    @commands.is_owner()
-    async def game(self, ctx, sum_name: str, region: str):
+    async def game(self, ctx, sum_name: str, region=region):
 
         if region is None:
             try:
@@ -266,26 +263,54 @@ class SummonerStats:
         await ctx.trigger_typing()
 
         try:
-            riotapi.set_region(region)
+            summoner = Summoner(name=sum_name, region=region)
         except ValueError:
             embed = utilities.error_embed(ctx, "{0} is not a valid region! Valid regions are listed in `b!region list`.".format(region))
             await ctx.send("", embed=embed)
             return
 
+        if summoner.exists is False:
+            embed = utilities.error_embed(ctx, "Could not find summoner '{0}' on region: {1}".format(sum_name, region))
+            await ctx.send("", embed=embed)
+            return
+    
         try:
-            summoner = riotapi.get_summoner_by_name(sum_name)
-            game = riotapi.get_current_game(summoner)
+            current_match = summoner.current_match
         except APIError as exception:
             await Summoner.raise_exception(self, ctx, exception, sum_name, region)
             return
 
         try:
-            does_game_exist = game.id
-        except AttributeError:
+            does_game_exist = current_match.id
+        except NotFoundError:
             embed = utilities.error_embed(ctx, "{} is not in an active game!".format(summoner.name))
             await ctx.send("", embed=embed)
             return
 
+        #queue = current_match.queue
+        #duration = current_match.duration
+        blue_team = {}
+        red_team = {}
+        for x in range(len(current_match.blue_team.participants)):
+            blue_team["summoner{0}".format(x)] = current_match.blue_team.participants[x].summoner_name
+            blue_team["champion{0}".format(x)] = Champion(id=current_match.blue_team.participants[x].champion_id).name
+        
+        for x in range(len(current_match.red_team.participants)):
+            red_team["summoner{0}".format(x)] = current_match.red_team.participants[x].summoner_name
+            red_team["champion{0}".format(x)] = Champion(id=current_match.red_team.participants[x].champion_id).name
+                
+        embed=discord.Embed(colour=0x1AFFA7, title="\u200B")
+        embed.set_author(name="{0}'s Current {1} Match ({2}) - Duration: {3}".format(summoner.name, "queue", region, "duration"))
+        embed.add_field(name="Blue Team", value="\u200B", inline=True)
+        embed.add_field(name="Red Team", value="\u200B", inline=True)
+        embed.add_field(name="\u200B", value="\u200B", inline=True)
+        for x in range(len(current_match.blue_team.participants)):
+            embed.add_field(name=blue_team["summoner{0}".format(x)], value=blue_team["champion{0}".format(x)], inline=True)
+            embed.add_field(name=red_team["summoner{0}".format(x)], value=red_team["champion{0}".format(x)], inline=True)
+            embed.add_field(name="\u200B", value="\u200B", inline=True)
+        embed.add_field(name="\u200B", value="\u200B", inline=True)
+        utilities.footer(ctx, embed)
+        await ctx.send("", embed=embed)
         
 
 def setup(bot):
