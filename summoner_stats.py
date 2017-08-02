@@ -136,7 +136,11 @@ class SummonerStats:
                         losses = entries.losses
                         overall_wins += wins
                         overall_losses += losses
-                        ratio = (wins / (wins + losses) * 100)
+                        try:
+                            ratio = (wins / (wins + losses) * 100)
+                        except ZeroDivisionError:
+                            embed = utilities.error_embed(ctx, "Your account has no ranked statistics!")
+                            return
 
                 if queue == 'RANKED_SOLO_5x5':
                     embed.add_field(name="Ranked Solo:", value=u'\u200B', inline=True)
