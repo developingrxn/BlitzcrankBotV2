@@ -74,8 +74,23 @@ class SummonerStats:
             await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)
-    async def search(self, ctx, sum_name: str, region=None):
+    async def search(self, ctx, *args):
         """'Summoner Name' '[optional] Region'"""
+        if len(args) == 1:
+            sum_name = args[0]
+            region = None
+        elif len(args) == 2:
+            try:
+                Summoner(name="", region=args[1])
+                sum_name = args[0]
+                region = args[1]
+            except ValueError:
+                sum_name = "{0} {1}".format(args[0], args[1])
+                region = None
+        elif len(args) == 3:
+            sum_name = "{0} {1}".format(args[0], args[1])
+            region = args[2]
+
         if region is None:
             try:
                 db = database.Database('guilds.db')
@@ -188,8 +203,51 @@ class SummonerStats:
         await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)
-    async def mastery(self, ctx, sum_name: str, champ_name: str, region=None):
+    async def mastery(self, ctx, *args):
         """'Summoner Name' 'Champion Name' '[optional] Region'"""
+        if len(args) == 1:
+            embed = utilities.error_embed(ctx, "Missing required arguments, please see help command!")
+            await ctx.send("", embed=embed)
+            return
+        elif len(args) == 2:
+            sum_name = args[0]
+            champ_name = args[1]
+            region = None
+        elif len(args) == 3:
+            try:
+                Summoner(name="", region=args[2])
+                sum_name = args[0]
+                champ_name = args[1]
+                region = args[2]
+            except ValueError:
+                try:
+                    Champion(name=args[2]).id
+                    sum_name = "{0} {1}".format(args[0], args[1])
+                    champ_name = args[2]
+                    region = None
+                except NotFoundError:
+                    sum_name = args[0]
+                    champ_name = "{0} {1}".format(args[1], args[2])
+                    region = None
+        elif len(args) == 4:
+            try:
+                Summoner(name="", region=args[3])
+                region = args[3]
+                if Summoner(name="{0} {1}".format(args[0], args[1]), region=region).exists:
+                    sum_name = "{0} {1}".format(args[0], args[1])
+                    champ_name = args[2]
+                else:
+                    sum_name = args[0]
+                    champ_name = "{0} {1}".format(args[1], args[2])
+            except ValueError:
+                sum_name = "{0} {1}".format(args[0], args[1])
+                champ_name = "{0} {1}".format(args[2], args[3])
+                region = None
+        elif len(args) == 5:
+            sum_name = "{0} {1}".format(args[0], args[1])
+            champ_name = "{0} {1}".format(args[2], args[3])
+            region = args[4]
+                
         if region is None:
             try:
                 db = database.Database('guilds.db')
