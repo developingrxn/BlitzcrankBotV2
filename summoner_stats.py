@@ -121,7 +121,7 @@ class SummonerStats:
             pass
 
         embed = discord.Embed(colour=0x1affa7)
-        #top_champs = "{0}, {1} and {2}".format(top_champ[0].champion.name, top_champ[1].champion.name, top_champ[2].champion.name)
+        top_champs = "{0}, {1} and {2}".format(top_champ[0].champion.name, top_champ[1].champion.name, top_champ[2].champion.name)
         icon_url = summoner.profile_icon.url
         overall_wins, overall_losses = 0, 0
         try:
