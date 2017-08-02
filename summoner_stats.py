@@ -140,6 +140,7 @@ class SummonerStats:
                             ratio = (wins / (wins + losses) * 100)
                         except ZeroDivisionError:
                             embed = utilities.error_embed(ctx, "Your account has no ranked statistics!")
+                            await ctx.send("", embed=embed)
                             return
 
                 if queue == 'RANKED_SOLO_5x5':
@@ -176,6 +177,7 @@ class SummonerStats:
             overall_ratio = (overall_wins / (overall_wins + overall_losses) * 100)
         except ZeroDivisionError:
             embed = utilities.error_embed(ctx, "Your account has no ranked statistics!")
+            await ctx.send("", embed=embed)
             return
 
         overall = "{0}W/{1}L ({2:.2f})%".format(overall_wins, overall_losses, overall_ratio)
