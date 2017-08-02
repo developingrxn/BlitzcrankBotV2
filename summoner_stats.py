@@ -174,7 +174,7 @@ class SummonerStats:
         op_gg = "https://{0}.op.gg/summoner/userName={1}".format(region, sum_name.replace(" ", "%20"))
         embed.set_author(name="Summoner Lookup - {0} ({1})".format(sum_name, region), url=op_gg, icon_url=icon_url)
         embed.add_field(name="Overall:", value=u'\u200B', inline=True)
-        embed.add_field(name="Top Champions", value="top_champs", inline=True)
+        embed.add_field(name="Top Champions", value=top_champs, inline=True)
         embed.add_field(name="W/L", value=overall, inline=True)
         utilities.footer(ctx, embed)
         await ctx.send("", embed=embed)
