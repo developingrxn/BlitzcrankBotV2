@@ -243,7 +243,7 @@ class SummonerStats:
         await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)
-    async def game(self, ctx, sum_name: str, region=region):
+    async def game(self, ctx, sum_name: str, region=None):
 
         if region is None:
             try:
@@ -300,7 +300,7 @@ class SummonerStats:
             red_team["champion{0}".format(x)] = Champion(id=current_match.red_team.participants[x].champion_id).name
                 
         embed=discord.Embed(colour=0x1AFFA7, title="\u200B")
-        embed.set_author(name="{0}'s Current {1} Match ({2}) - Duration: {3}".format(summoner.name, "queue", region, "duration"))
+        embed.set_author(name="{0}'s Current {1} Match ({2}) - Duration: {3}".format(summoner.name, "WIP", region, "WIP"))
         embed.add_field(name="Blue Team", value="\u200B", inline=True)
         embed.add_field(name="Red Team", value="\u200B", inline=True)
         embed.add_field(name="\u200B", value="\u200B", inline=True)
