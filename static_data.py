@@ -19,7 +19,7 @@ class Help:
     @commands.group()
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed=Embed(colour=0x1AFFA7)
+            embed=Embed(colour=0x1AFFA7, description="[Click here to view a full list of commands!](https://superfrosty.github.io/BlitzcrankBotV2/)")
             embed.set_author(name="Blitzcrank Bot - Commands:", icon_url=self.bot.user.avatar_url)
             embed.add_field(name="b!search 'User'",
                             value="Show a user's ranked statistics",
@@ -32,6 +32,12 @@ class Help:
                             inline=True)
             embed.add_field(name="Example:",
                             value="b!mastery Riviere Sivir",
+                            inline=True)
+            embed.add_field(name="b!game 'User'",
+                            value="Look up a user's current match",
+                            inline=True)
+            embed.add_field(name="Example:",
+                            value="b!game Riviere",
                             inline=True)
             embed.add_field(name="b!region view",
                             value="Show the default region",

@@ -11,20 +11,22 @@ Command | Usage | Description
 --------|-------|------------
 b!search|b!search Riviere| Retrieves ranked statistics for a given user
 b!mastery|b!mastery Riviere Sivir| Retrieves champion mastery information for a given user
+b!game|b!game Riviere| Retrieves the the players and champions in a given user's game
 b!region view||Retrieves a server's default region
 b!region set|b!region set OCE|Sets a server's default region
 b!region update|b!region update OCE|Updates a server's default region
 b!region remove||Removes a server's default region
 b!region list||Lists all valid regions
 b!invite||Retrieves Blitzcrank Bot's invite link
-b!support||Retreives link to Blitzcrank Bot's support server
+b!support||Retreives the link to Blitzcrank Bot's support server
 
 ## Future Commands
 
 Command | Usage | Description
 --------|-------|------------
 b!top|b!top Sivir|Retrieves the top 10 users on the server by mastery points
-b!ingame|b!game Riviere|Retrieves information about the user's current game
+b!masteries|b!masteries Riviere| Retrieves a given user's mastery pages
+b!runes|b!runes Riviere| Retreives a given user's rune pages
 
 ## FAQ
 
