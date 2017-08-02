@@ -218,7 +218,7 @@ class SummonerStats:
         except APIRequestError as exception:
             await SummonerStats.raise_exception(self, ctx, exception, sum_name, region)
             return
-        except AttributeError:
+        except TypeError:
             embed = utilities.error_embed(ctx, "Could not find champion '{0}'. Please remember capitals.".format(champ_name))
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
