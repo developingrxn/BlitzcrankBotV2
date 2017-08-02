@@ -107,7 +107,8 @@ class Events:
             embed.add_field(name="Total:", value=len(self.bot.guilds), inline=True)
             channel = self.bot.get_channel(295831639219634177)
             await channel.send('', embed=embed)
-            await guild.default_channel.send("Beep, boop! To set up a default LoL region for my lookup commands, please use the `b!region set` command! (Example, `b!region set OCE`)")
+            channel_test = discord.utils.find(lambda c: c.permissions_for(c.guild.me).send_messages, guild.text_channels)
+            await channel_test.send("Beep, boop! To set up a default LoL region for my lookup commands, please use the `b!region set` command! (Example, `b!region set OCE`)")
             db = database.Database("guilds.db")
             db.add_table(str(guild.id))
             db.close_connection()
@@ -115,6 +116,7 @@ class Events:
     
     async def on_guild_remove(self, guild):
         await self.post_stats()
+        pass
 
 def setup(bot):
     """Adds cog to bot"""
