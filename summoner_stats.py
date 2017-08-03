@@ -346,7 +346,7 @@ class SummonerStats:
             return
 
         #queue = current_match.queue
-        #duration = current_match.duration
+        duration = current_match.duration
         blue_team = {}
         red_team = {}
         for x in range(len(current_match.blue_team.participants)):
@@ -358,7 +358,7 @@ class SummonerStats:
             red_team["champion{0}".format(x)] = Champion(id=current_match.red_team.participants[x].champion_id).name
                 
         embed=discord.Embed(colour=0x1AFFA7, title="\u200B")
-        embed.set_author(name="{0}'s Current {1} Match ({2}) - Duration: {3}".format(summoner.name, "WIP", region, "WIP"))
+        embed.set_author(name="{0}'s Current {1} Match ({2}) - Duration: {3}".format(summoner.name, "WIP", region, duration))
         embed.add_field(name="Blue Team", value="\u200B", inline=True)
         embed.add_field(name="Red Team", value="\u200B", inline=True)
         embed.add_field(name="\u200B", value="\u200B", inline=True)
