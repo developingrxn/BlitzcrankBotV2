@@ -277,7 +277,7 @@ class SummonerStats:
 
         try:
             champion = cass.Champion(name=champ_name)
-            mastery = cass.get_champion_mastery(champion=champion, summoner=summoner)
+            mastery = cass.get_champion_mastery(champion=champion, summoner=summoner, region=region)
             level = mastery.level
             points = mastery.points
             punl = mastery.points_until_next_level
