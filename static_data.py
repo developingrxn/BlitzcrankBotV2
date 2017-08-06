@@ -97,7 +97,7 @@ class Help:
     @commands.command(no_pm=True)
     async def support(self, ctx):
         """Join the support server to ask for help!"""
-        link = "https://discord.gg/J78uAgZ"
+        link = "https://discord.gg/UP4TwFX"
         await ctx.send("Join my support server if you need help with commands!\n " + link)
 
 
