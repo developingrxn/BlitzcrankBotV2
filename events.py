@@ -91,7 +91,8 @@ class Events:
         members = len(guild.members)
         if len(l) / members >= .55:
             bots = "{0:.0F}% bots".format(100 * (len(l) / members))
-            await guild.default_channel.send("To avoid bot collection servers, I auto leave any server where 55% or above of the users are bots, sorry!")
+            channel_test = discord.utils.find(lambda c: c.permissions_for(c.guild.me).send_messages, guild.text_channels)
+            await channel_test.send("To avoid bot collection servers, I auto leave any server where 55% or above of the users are bots, sorry!")
             await guild.leave()
             embed = discord.Embed(title="Left Server", colour=0x1affa7)
             embed.add_field(name="Server:", value=guild.name, inline=True)
