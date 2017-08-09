@@ -13,6 +13,7 @@ from sqlite3 import OperationalError
 import config
 import database
 import utilities
+import urllib.parse
 
 
 class SummonerStats:
@@ -109,7 +110,7 @@ class SummonerStats:
         await ctx.trigger_typing()
 
         try:
-            summoner = Summoner(name=sum_name, region=region)
+            summoner = Summoner(name=urllib.parse.quote(sum_name.encode('utf-8')), region=region)
         except ValueError:
             embed = utilities.error_embed(ctx, "{0} is not a valid region! Valid regions are listed in `b!region list`.".format(region))
             await ctx.send("", embed=embed)
