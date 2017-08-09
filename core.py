@@ -11,7 +11,7 @@ DESCRIPTION = '''Blitzcrank Bot is a Discord bot written by Frosty ☃#5263 to p
                from Riot's API for a given summoner. All commands should be prefixed with 'b!'
                (for example, b!search)'''
 
-STARTUP_EXTENSIONS = ['utilities', 'summoner_stats', 'static_data', 'default_regions', 'reload',
+STARTUP_EXTENSIONS = ['utilities.utility_commands', 'summoner', 'static_data', 'default_regions', 'reload',
                       'events']
 
 

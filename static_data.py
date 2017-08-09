@@ -4,7 +4,7 @@ Created on 15Jul.,2017
 @author: Alex Palmer | SuperFrosty
 '''
 import asyncio
-import utilities
+from utilities.general_utilities import GeneralUtilities as utilities
 from discord import Embed
 from discord.ext import commands
 
@@ -19,8 +19,10 @@ class Help:
     @commands.group()
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed=Embed(colour=0x1AFFA7, description="[Click here to view a full list of commands!](https://superfrosty.github.io/BlitzcrankBotV2/)")
-            embed.set_author(name="Blitzcrank Bot - Commands:", icon_url=self.bot.user.avatar_url)
+            embed = Embed(
+                colour=0x1AFFA7, description="[Click here to view a full list of commands!](https://superfrosty.github.io/BlitzcrankBotV2/)")
+            embed.set_author(name="Blitzcrank Bot - Commands:",
+                             icon_url=self.bot.user.avatar_url)
             embed.add_field(name="b!search 'User'",
                             value="Show a user's ranked statistics",
                             inline=True)
@@ -63,13 +65,14 @@ class Help:
             embed.add_field(name="Other commands:",
                             value="Other commands can be listed with b!help more",
                             inline=True)
-            utilities.footer(ctx, embed)
+            utilities().footer(ctx, embed)
             await ctx.send("", embed=embed)
 
     @help.command()
     async def more(self, ctx):
         embed = Embed(colour=0x1AFFA7)
-        embed.set_author(name="Blitzcrank Bot - Commands:", icon_url=self.bot.user.avatar_url)
+        embed.set_author(name="Blitzcrank Bot - Commands:",
+                         icon_url=self.bot.user.avatar_url)
         embed.add_field(name="b!invite",
                         value="Invite Blitzcrank to your server!",
                         inline=False)
@@ -85,7 +88,7 @@ class Help:
         embed.add_field(name="b!info",
                         value="Returns basic info about Blitzcrank.",
                         inline=False)
-        utilities.footer(ctx, embed)
+        utilities().footer(ctx, embed)
         await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)

@@ -1,23 +1,20 @@
 '''
-Created on 17Jul.,2017
+Created on 08Aug.,2017
 
 @author: Alex Palmer | SuperFrosty
 '''
+
 import asyncio
 import datetime
-import logging
 import time
 
-from discord import Embed
 from discord.ext import commands
-
-import config
 
 start_time = time.localtime()
 
 wrap = "```py\n{}\n```"
 
-class Utilities:
+class UtilityCommands:
     """ Commands relating to the Blitzcrank Bot's operations."""
 
     def __init__(self, bot):
@@ -66,40 +63,5 @@ class Utilities:
         except Exception as e: # pylint: disable=bare-except
             await ctx.send(wrap.format(type(e).__name__ + ': ' + str(e)))
 
-
-def footer(ctx, embed: Embed):
-    return embed.set_footer(
-        text="Requested by: {0} | {1}".format(ctx.author.name, datetime.datetime.utcnow().strftime("%A, %d. %B %Y %I:%M%p")),
-        icon_url=ctx.author.avatar_url)
-
-
-def error_embed(ctx, description: str):
-    embed = Embed(title="Error!", description=description, colour=0xCA0147)
-    footer(ctx, embed)
-    return embed
-
-
-def fix_url(champ: str):
-    if " " in champ:
-        url_friendly_name = champ.replace(" ", "")
-        url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/{}.png'.format(url_friendly_name)
-    elif "Vel'Koz" in champ:
-        url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/Velkoz.png'
-    elif "Kha'Zix" in champ:
-        url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/Khazix.png'
-    elif "Rek'Sai" in champ:
-        url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/RekSai.png'
-    elif "Cho'Gath" in champ:
-        url = 'http://ddragon.leagueoflegends.com/cdn/7.8.1/img/champion/Chogath.png'
-    elif "Kog'Maw" in champ:
-        url = 'http://ddragon.leagueoflegends.com/cdn/7.8.1/img/champion/KogMaw.png'
-    else:
-        url = 'http://ddragon.leagueoflegends.com/cdn/7.3.3/img/champion/{}.png'.format(champ)
-
-    return url
-
-
 def setup(bot):
-    bot.add_cog(Utilities(bot))
-
-# Base finished
+    bot.add_cog(UtilityCommands(bot))

@@ -33,7 +33,8 @@ class ServerRegion:
             db = database.Database('guilds.db')
             region = db.find_entry(ctx.guild.id)
             db.close_connection()
-            embed = discord.Embed(title=title, description=region, colour=0x1AFFA7)
+            embed = discord.Embed(
+                title=title, description=region, colour=0x1AFFA7)
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
         except TypeError:
@@ -63,7 +64,8 @@ class ServerRegion:
             db.close_connection()
             embed = discord.Embed(
                 title="Error!",
-                description="{0} is already {1}'s default region!".format(region_found, ctx.guild.name),
+                description="{0} is already {1}'s default region!".format(
+                    region_found, ctx.guild.name),
                 colour=0xCA0147)
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
@@ -72,7 +74,8 @@ class ServerRegion:
             db.close_connection()
             embed = discord.Embed(
                 title="Success!",
-                description="{0} set as {1}'s default region!".format(region, ctx.guild.name),
+                description="{0} set as {1}'s default region!".format(
+                    region, ctx.guild.name),
                 colour=0x1AFFA7)
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
@@ -97,7 +100,8 @@ class ServerRegion:
             db.close_connection()
             embed = discord.Embed(
                 title='Success!',
-                description="Set {0} as {1}'s default region!".format(region, ctx.guild.name),
+                description="Set {0} as {1}'s default region!".format(
+                    region, ctx.guild.name),
                 colour=0x1AFFA7)
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
@@ -120,7 +124,8 @@ class ServerRegion:
             db.close_connection()
             embed = discord.Embed(
                 title='Success!',
-                description="Default region for {0} has been cleared!".format(ctx.guild.name),
+                description="Default region for {0} has been cleared!".format(
+                    ctx.guild.name),
                 colour=0x1AFFA7)
             utilities.footer(ctx, embed)
             await ctx.send("", embed=embed)
@@ -143,6 +148,7 @@ class ServerRegion:
         )
         utilities.footer(ctx, embed)
         await ctx.send("", embed=embed)
+
 
 def setup(bot):
     bot.add_cog(ServerRegion(bot))
