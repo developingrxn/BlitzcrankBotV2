@@ -14,6 +14,7 @@ start_time = time.localtime()
 
 wrap = "```py\n{}\n```"
 
+
 class UtilityCommands:
     """ Commands relating to the Blitzcrank Bot's operations."""
 
@@ -26,8 +27,8 @@ class UtilityCommands:
         ping_start = time.time()
         msg = await ctx.send('Pong!')
         ping_end = time.time()
-        ping_diff = ping_end - ping_start
-        response = 'Pong! completed in {}s.'.format(ping_diff)
+        ping_diff = (ping_end - ping_start) * 1000
+        response = 'Pong! completed in {}ms.'.format(ping_diff)
         await msg.edit(content=response)
 
     @commands.command(no_pm=True)
@@ -35,7 +36,8 @@ class UtilityCommands:
         """Return's Blitzcrank Bot's uptime."""
         compare_time = time.localtime()
         elapsed_time = time.mktime(compare_time) - time.mktime(start_time)
-        response = "Running for {}".format(datetime.timedelta(seconds=elapsed_time))
+        response = "Running for {}".format(
+            datetime.timedelta(seconds=elapsed_time))
         await ctx.send(response)
 
     @commands.command(no_pm=True, hidden=True)
@@ -50,18 +52,19 @@ class UtilityCommands:
                 "summoner look ups. Written using discord.py by "
                 "Frosty ☃#5263.")
         await ctx.send(info)
-    
+
     @commands.command(hidden=True, name="eval")
     @commands.is_owner()
-    async def _eval(self, ctx, *, code : str):
+    async def _eval(self, ctx, *, code: str):
         try:
             result = eval(code)
             if asyncio.iscoroutine(result):
                 await result
             else:
                 await ctx.send(wrap.format(result))
-        except Exception as e: # pylint: disable=bare-except
+        except Exception as e:  # pylint: disable=bare-except
             await ctx.send(wrap.format(type(e).__name__ + ': ' + str(e)))
+
 
 def setup(bot):
     bot.add_cog(UtilityCommands(bot))

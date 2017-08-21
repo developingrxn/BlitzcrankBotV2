@@ -7,7 +7,7 @@ import datetime
 import sqlite3
 
 import discord
-from cassiopeia.core import Summoner
+from cassiopeia import Summoner
 from discord.ext import commands
 
 import utilities

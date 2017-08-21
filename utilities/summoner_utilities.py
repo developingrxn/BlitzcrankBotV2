@@ -5,11 +5,11 @@ Created on 08Aug.,2017
 '''
 from sqlite3 import OperationalError
 import sys
-from cassiopeia.core import Summoner
+from cassiopeia import Summoner, ChampionMastery
 from cassiopeia.datastores.riotapi.common import APIRequestError
-
+from datapipelines.common import NotFoundError
 import database
-from .general_utilities import GeneralUtilities
+from exceptions import Exceptions
 
 sys.setrecursionlimit(1500)
 
@@ -21,47 +21,61 @@ class SummonerUtilities:
         self.summoner = summoner
         self.ctx = ctx
 
-    async def get_leagues(self) -> dict:
+    async def get_leagues(self, msg) -> dict:
         """Return leagues"""
         try:
-            leagues = self.summoner.leagues
-            return leagues
-        except APIRequestError as exception:
-            await GeneralUtilities.raise_exception(self, self.ctx, exception, self.summoner.name, None)
+            positions = self.summoner.league_positions
+            return positions
+        except (APIRequestError, NotFoundError) as exception:
+            await Exceptions().raise_exception(self.ctx, exception, "leagues", msg, self.summoner.name)
             return
 
-    async def get_champion_masteries(self) -> list:
-        """Returns list of champions in descending order of mastery"""
+    async def get_champion_mastery(self, champion, region, msg) -> ChampionMastery:
+        """Returns ChampionMastery object"""
+        try:
+            mastery = ChampionMastery(
+                summoner=self.summoner, champion=champion, region=region)
+            mastery.points
+            return mastery
+        except TypeError as exception:
+            await Exceptions().raise_exception(self.ctx, exception, "cm", msg, champion)
+            return
+        except APIRequestError as exception:
+            await Exceptions().raise_exception(self.ctx, exception, "", msg, None)
+            return
+
+    async def get_champion_masteries(self, msg) -> list:
+        """Returns champions in descending order of mastery"""
         try:
             masteries = self.summoner.champion_masteries
             return masteries
         except APIRequestError as exception:
-            await GeneralUtilities.raise_exception(self, self.ctx, exception, self.summoner.name, None)
+            await Exceptions().raise_exception(self.ctx, exception, "", msg, None)
             return
 
-    def get_all_ranks(self, leagues) -> dict:
+    def get_all_ranks(self, positions) -> dict:
         """Returns ranks in all queues"""
         ranks = {"RANKED_SOLO_5x5": "UNRANKED",
                  "RANKED_FLEX_SR": "UNRANKED", "RANKED_FLEX_TT": "UNRANKED"}
-        ranks_request = {league.queue.value: "{} {}".format(league.tier.value, entry.division.value)
-                         for league in leagues for entry in league.entries if entry.summoner.name == self.summoner.name}
+        ranks_request = {league.queue.value: "{} {}".format(league.tier.value, league.division.value)
+                         for league in positions}
         ranks.update(ranks_request)
         return ranks
 
-    def get_all_wins(self, leagues) -> dict:
+    def get_all_wins(self, positions) -> dict:
         """Returns of wins in all queues"""
         wins = {"RANKED_SOLO_5x5": 0, "RANKED_FLEX_SR": 0, "RANKED_FLEX_TT": 0}
         wins_request = {
-            league.queue.value: entry.wins for league in leagues for entry in league.entries if entry.summoner.name == self.summoner.name}
+            league.queue.value: league.wins for league in positions}
         wins.update(wins_request)
         return wins
 
-    def get_all_losses(self, leagues) -> dict:
+    def get_all_losses(self, positions) -> dict:
         """Returns losses in all queues"""
         losses = {"RANKED_SOLO_5x5": 0,
                   "RANKED_FLEX_SR": 0, "RANKED_FLEX_TT": 0}
         losses_request = {
-            league.queue.value: entry.losses for league in leagues for entry in league.entries if entry.summoner.name == self.summoner.name}
+            league.queue.value: league.losses for league in positions}
         losses.update(losses_request)
         return losses
 
@@ -91,12 +105,12 @@ class SummonerUtilities:
         else:
             return overall_wins / (overall_wins + overall_losses) * 100
 
-    def get_all_lp(self, leagues) -> dict:
+    def get_all_lp(self, positions) -> dict:
         """Returns lp for all queues"""
         league_points = {"RANKED_SOLO_5x5": 0,
                          "RANKED_FLEX_SR": 0, "RANKED_FLEX_TT": 0}
         league_points_request = {
-            league.queue.value: "{} LP".format(entry.league_points) for league in leagues for entry in league.entries if entry.summoner.name == self.summoner.name}
+            league.queue.value: "{} LP".format(league.league_points) for league in positions}
         league_points.update(league_points_request)
         return league_points
 

@@ -10,6 +10,7 @@ import collections
 
 import discord
 from discord.ext import commands
+import exceptions
 
 import database
 
@@ -72,7 +73,6 @@ class Events:
     async def on_command_error(self, ctx, error):
         """Error handling"""
         error_msg = None
-        self.logger1.error(ctx.message.content + ": " + str(error))
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(error)
         elif isinstance(error, commands.CommandNotFound):
@@ -82,6 +82,8 @@ class Events:
             if isinstance(original, discord.Forbidden):
                 error_msg = (
                     "I need to have the 'embed links' permission to run properly!")
+            elif isinstance(original, exceptions.Halt):
+                return
             else:
                 error_msg = 'Something unexpected went wrong, sorry :I'
 
