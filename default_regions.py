@@ -10,9 +10,11 @@ import discord
 from cassiopeia import Summoner
 from discord.ext import commands
 
-import utilities
+import utils
 import config
 import database
+
+utils = general_utilities.GeneralUtilities()
 
 
 class ServerRegion:
@@ -35,14 +37,14 @@ class ServerRegion:
             db.close_connection()
             embed = discord.Embed(
                 title=title, description=region, colour=0x1AFFA7)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
         except TypeError:
             embed = discord.Embed(
                 title=title,
                 description="A default region for this server has not been set!",
                 colour=0x1AFFA7)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
 
     @region.command(no_pm=True)
@@ -55,7 +57,7 @@ class ServerRegion:
                 title="Error!",
                 description="{0} is not a valid region!".format(region),
                 colour=0xCA0147)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
             return
         db = database.Database('guilds.db')
@@ -67,7 +69,7 @@ class ServerRegion:
                 description="{0} is already {1}'s default region!".format(
                     region_found, ctx.guild.name),
                 colour=0xCA0147)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
         except TypeError:
             db.add_entry(ctx.guild.id, region)
@@ -77,7 +79,7 @@ class ServerRegion:
                 description="{0} set as {1}'s default region!".format(
                     region, ctx.guild.name),
                 colour=0x1AFFA7)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
 
     @region.command(no_pm=True)
@@ -90,7 +92,7 @@ class ServerRegion:
                 title="Error!",
                 description="{0} is not a valid region!".format(region),
                 colour=0xCA0147)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
             return
         db = database.Database('guilds.db')
@@ -103,7 +105,7 @@ class ServerRegion:
                 description="Set {0} as {1}'s default region!".format(
                     region, ctx.guild.name),
                 colour=0x1AFFA7)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
         except TypeError:
             db.close_connection()
@@ -111,7 +113,7 @@ class ServerRegion:
                 title="Error!",
                 description="A default region for this server has not been set!",
                 colour=0xCA0147)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
 
     @region.command(no_pm=True)
@@ -127,7 +129,7 @@ class ServerRegion:
                 description="Default region for {0} has been cleared!".format(
                     ctx.guild.name),
                 colour=0x1AFFA7)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
         except TypeError:
             db.close_connection()
@@ -135,7 +137,7 @@ class ServerRegion:
                 title="Error!",
                 description="A default region for this server has not been set!",
                 colour=0xCA0147)
-            utilities.footer(ctx, embed)
+            utils.footer(ctx, embed)
             await ctx.send("", embed=embed)
 
     @region.command(no_pm=True, name="list")
@@ -146,7 +148,7 @@ class ServerRegion:
             description="BR, EUNE, EUW, JP, KR, LAN, LAS, NA, OCE, RU, TR",
             colour=0x1AFFA7
         )
-        utilities.footer(ctx, embed)
+        utils.footer(ctx, embed)
         await ctx.send("", embed=embed)
 
 
