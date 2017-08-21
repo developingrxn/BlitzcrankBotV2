@@ -88,7 +88,7 @@ class Events:
             print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
             print(error)
             embed = discord.Embed(title="An unexpected error occured :I", colour=0xCA0147,
-                                  description="If you feel like this shouldn't be happened [click here to join my support server](https://discord.gg/UP4TwFX).")
+                                  description="If you feel like this shouldn't be happening [click here to join my support server](https://discord.gg/UP4TwFX).")
             await ctx.send("", embed=embed)
         else:
             print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
