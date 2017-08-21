@@ -80,17 +80,16 @@ class Events:
         elif isinstance(error, commands.CommandInvokeError):
             original = error.original
             if isinstance(original, discord.Forbidden):
-                error_msg = (
-                    "I need to have the 'embed links' permission to run properly!")
+                await ctx.send("I need to have the 'embed links' permission to send messages!")
+                return
             elif isinstance(original, exceptions.Halt):
                 return
-            else:
-                error_msg = 'Something unexpected went wrong, sorry :I'
 
             print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
             print(error)
-            await ctx.send(error_msg)
-            await ctx.send("If you feel like this shouldn't be happening, feel free to join my support server with b!support.")
+            embed = discord.Embed(title="An unexpected error occured :I", colour=0xCA0147,
+                                  description="If you feel like this shouldn't be happened (click here to join my support server)[https://discord.gg/UP4TwFX].")
+            await ctx.send("", embed=embed)
         else:
             print('{0.created_at}: {0.author}: {0.content}'.format(ctx.message))
             print(str(error))
@@ -101,7 +100,9 @@ class Events:
         members = len(guild.members)
         if len(l) / members >= .55:
             bots = "{0:.0F}% bots".format(100 * (len(l) / members))
-            await guild.default_channel.send("To avoid bot collection servers, I auto leave any server where 55% or above of the users are bots, sorry!")
+            channel_test = discord.utils.find(lambda c: c.permissions_for(
+                c.guild.me).send_messages, guild.text_channels)
+            await channel_test.send("To avoid bot collection servers, I auto leave any server where 55% or above of the users are bots, sorry!")
             await guild.leave()
             embed = discord.Embed(title="Left Server", colour=0x1affa7)
             embed.add_field(name="Server:", value=guild.name, inline=True)

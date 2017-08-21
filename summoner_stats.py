@@ -13,7 +13,7 @@ from discord.ext import commands
 import database
 from utilities import summoner_utilities
 from utilities import general_utilities
-
+import urllib
 utils = general_utilities.GeneralUtilities()
 
 VALID_REGIONS = ["BR", "EUW", "EUNE", "JP",
@@ -42,7 +42,8 @@ class SummonerStats:
 
         region = await utils.no_region_check(ctx, region)
 
-        summoner = Summoner(name=sum_name, region=region)
+        summoner = Summoner(name=urllib.parse.quote(
+            sum_name.encode('utf-8')), region=region)
         sutils = summoner_utilities.SummonerUtilities(
             ctx, summoner)
 
