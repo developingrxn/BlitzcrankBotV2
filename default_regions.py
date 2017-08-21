@@ -10,7 +10,7 @@ import discord
 from cassiopeia import Summoner
 from discord.ext import commands
 
-import utils
+from utilities import general_utilities
 import config
 import database
 
