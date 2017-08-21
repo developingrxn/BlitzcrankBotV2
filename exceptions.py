@@ -1,3 +1,8 @@
+'''
+Created on 21Aug.,2017
+
+@author: Alex Palmer | SuperFrosty
+'''
 from discord.ext import commands
 from discord import Embed
 from utilities import general_utilities
