@@ -96,7 +96,7 @@ class Help:
         """Add Blitzcrank to your server with this link!"""
         link = "https://discordapp.com/oauth2/authorize?client_id=282765243862614016&scope=bot&permissions=19456"
         embed = Embed(
-            description="[Click here to invite me to your server!]({link})", colour=0x1AFFA7)
+            description="[Click here to invite me to your server!](https://discordapp.com/oauth2/authorize?client_id=282765243862614016&scope=bot&permissions=19456)", colour=0x1AFFA7)
         await ctx.send("", embed=embed)
 
     @commands.command(no_pm=True)
@@ -104,7 +104,7 @@ class Help:
         """Join the support server to ask for help!"""
         link = "https://discord.gg/UP4TwFX"
         embed = Embed(
-            description="[Click here to join my support server.]({link})", colour=0x1AFFA7)
+            description="[Click here to join my support server.](https://discord.gg/UP4TwFX)", colour=0x1AFFA7)
         await ctx.send("", embed=embed)
 
 
