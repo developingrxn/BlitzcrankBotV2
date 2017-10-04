@@ -5,7 +5,7 @@ Created on 08Aug.,2017
 '''
 from sqlite3 import OperationalError
 import sys
-from cassiopeia import Summoner, ChampionMastery
+from cassiopeia import Summoner, ChampionMastery, Champion
 from cassiopeia.datastores.riotapi.common import APIRequestError
 from datapipelines.common import NotFoundError
 import database
