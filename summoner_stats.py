@@ -115,7 +115,7 @@ class SummonerStats:
         msg = await ctx.send("", embed=initial_embed)
         if args[-1].upper() in VALID_REGIONS:
             region = args[-1].upper()
-            if args[-2].title() in open(r"/home/Frosty/bots/BlitzcrankBotV2/spaces.txt").read():
+            if args[-2].title() in open(r"/home/alex_palmer/BlitzcrankBotV2/spaces.txt").read():
                 champ_name = " ".join(args[-3:-1]).title()
                 sum_name = " ".join(args[:len(args) - 3])
             else:
@@ -123,7 +123,7 @@ class SummonerStats:
                 sum_name = " ".join(args[:len(args) - 2])
         else:
             region = None
-            if args[-1].title() in open(r"/home/Frosty/bots/BlitzcrankBotV2/spaces.txt").read():
+            if args[-1].title() in open(r"/home/alex_palmer/BlitzcrankBotV2/spaces.txt").read():
                 champ_name = " ".join(args[-2:len(args)]).title()
                 sum_name = " ".join(args[:len(args) - 2])
             else:
