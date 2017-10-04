@@ -33,6 +33,7 @@ class SummonerUtilities:
     async def get_champion_mastery(self, champion, region, msg) -> ChampionMastery:
         """Returns ChampionMastery object"""
         try:
+            champion = Champion(name=champion, region="NA")
             mastery = ChampionMastery(
                 summoner=self.summoner, champion=champion, region=region)
             mastery.points
