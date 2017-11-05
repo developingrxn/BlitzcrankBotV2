@@ -209,14 +209,12 @@ class SummonerStats:
         for x in range(len(current_match.blue_team.participants)):
             blue_team["summoner{0}".format(
                 x)] = current_match.blue_team.participants[x].summoner.name
-            blue_team["champion{0}".format(x)] = Champion(
-                id=current_match.blue_team.participants[x].champion.id).name
+            blue_team["champion{0}".format(x)] = current_match.blue_team.participants[x].champion.name
 
         for x in range(len(current_match.red_team.participants)):
             red_team["summoner{0}".format(
                 x)] = current_match.red_team.participants[x].summoner.name
-            red_team["champion{0}".format(x)] = Champion(
-                id=current_match.red_team.participants[x].champion.id).name
+            red_team["champion{0}".format(x)] = current_match.red_team.participants[x].champion.name
 
         embed = discord.Embed(colour=0x1AFFA7, title="\u200B")
         embed.set_author(
