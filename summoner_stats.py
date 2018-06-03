@@ -132,7 +132,9 @@ class SummonerStats:
 
         region = await utils.no_region_check(ctx, region)
 
-        summoner = Summoner(name=sum_name, region=region)
+        summoner = Summoner(name=urllib.parse.quote(
+sum_name.encode('utf-8')), region=region)
+        level = summoner.level
         sutils = summoner_utilities.SummonerUtilities(
             ctx, summoner)
 
