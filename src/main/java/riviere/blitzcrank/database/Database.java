@@ -10,7 +10,7 @@ public class Database {
     private Connection connect() {
         Connection conn;
         try {
-            String url = "jdbc:sqlite:C:/Users/Alex/IdeaProjects/blitzcrank_bot/guilds.db";
+            String url = "jdbc:sqlite:/home/alex_palmer/guilds.db";
             conn = DriverManager.getConnection(url);
             return conn;
         } catch (SQLException e) {

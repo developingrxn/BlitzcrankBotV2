@@ -26,7 +26,8 @@ public class RegionCommands extends Command {
         if (args[0].equals("view")) view(event, event.getGuild().getId());
         else if (args[0].equals("set")) set(event, event.getGuild().getId());
         else if (args[0].equals("update")) update(event, event.getGuild().getId());
-        else event.replyOrAlternate(new EmbedBuilder().setColor(0xCA0147).setDescription("Available region commands are: `view, set, update`").build(), "```\nAvailable region commands are: view, set, update\n```");
+        else if (args[0].equals("list")) list(event);
+        else event.replyOrAlternate(new EmbedBuilder().setColor(0xCA0147).setDescription("Available region commands are: `list, view, set, update`").build(), "```\nAvailable region commands are: list, view, set, update\n```");
     }
 
     private void view(CommandEvent event, String guildID) {
@@ -70,5 +71,9 @@ public class RegionCommands extends Command {
                 event.replyOrAlternate(new EmbedBuilder().setColor(0xCA0147).setTitle("No region has been set yet!").build(), "```\nNo region has been set yet!\n```");
             }
         }
+    }
+
+    private void list(CommandEvent event) {
+        event.replyOrAlternate(new EmbedBuilder().setColor(0x1AFFA7).setTitle("Valid Regions:").setDescription("BR, EUNE, EUW, JP, KR, LAN, LAS, NA, OCE, RU, TR").build(), "```\nValid Regions:\nBR, EUNE, EUW, JP, KR, LAN, LAS, NA, OCE, RU, TR\n```");
     }
 }

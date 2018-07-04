@@ -2,6 +2,8 @@
 config.txt
 out/
 gradle/
-build/
 .idea/*
 .gradle/*
+settings.gradle
+gradlew
+gradlew.bat
