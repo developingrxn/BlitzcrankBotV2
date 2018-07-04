@@ -1,5 +1,7 @@
-config.py
-discord.log
-*.pyc
 *.db
-.vscode
+config.txt
+out/
+gradle/
+build/
+.idea/*
+.gradle/*
