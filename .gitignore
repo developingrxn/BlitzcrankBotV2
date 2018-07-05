@@ -1,6 +1,5 @@
 *.db
 config.txt
-out/
 gradle/
 .idea/*
 .gradle/*

@@ -56,14 +56,14 @@ public class ArgumentParser {
                 for (String champs : spaces) {
                    if (parsedArgs[2] == null) {
                        if (champs.equals(tokens.get(size - 1))) {
-                           parsedArgs[1] = tokens.get(size - 2) + tokens.get(size - 1);
+                           parsedArgs[1] = tokens.get(size - 2) + " " + tokens.get(size - 1);
                            if ((size - 2) == 1) parsedArgs[0] = tokens.get(0);
                            else parsedArgs[0] = String.join("", tokens.subList(0, size - 2));
                            break;
                        }
                    } else {
                        if (champs.equals(tokens.get(size - 2))) {
-                           parsedArgs[1] = tokens.get(size - 3) + tokens.get(size - 2);
+                           parsedArgs[1] = tokens.get(size - 3)  + " " + tokens.get(size - 2);
                            if ((size - 3) == 1) parsedArgs[0] = tokens.get(0);
                            else parsedArgs[0] = String.join("", tokens.subList(0, size - 3));
                            break;
