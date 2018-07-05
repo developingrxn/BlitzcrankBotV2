@@ -8,16 +8,19 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.Permission;
 
 import com.sun.management.OperatingSystemMXBean;
+import riviere.blitzcrank.Blitzcrank;
 
 public class InfoCommand extends Command {
     private final OperatingSystemMXBean bean;
+    private final Blitzcrank blitzcrank;
 
-    public InfoCommand(OperatingSystemMXBean bean) {
+    public InfoCommand(Blitzcrank blitzcrank, OperatingSystemMXBean bean) {
         this.name = "info";
         this.help = "Gives basic information about the bot";
         this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE};
         this.aliases = new String[]{"about", "information"};
         this.bean = bean;
+        this.blitzcrank = blitzcrank;
     }
 
     @Override
@@ -27,10 +30,11 @@ public class InfoCommand extends Command {
             long usedRAMGB = usedRAM / 1000000000;
             JDA.ShardInfo si = event.getJDA().getShardInfo();
             EmbedBuilder builder = new EmbedBuilder();
+            System.out.println(blitzcrank.getShardManager().getShardsRunning());
             builder.setColor(0x1AFFA7)
                     .setAuthor("Blitzcrank Bot - About:", null, event.getSelfUser().getAvatarUrl())
                     .setDescription("A simple bot in its third iteration for League of Legends summoner lookups")
-                    .addField("Servers:", "" + event.getJDA().getGuilds().size(), true)
+                    .addField("Servers:", "" + blitzcrank.getShardManager().getGuilds().size(), true)
                     .addField("Shards:", "" + (si == null ? "1/1" : (si.getShardId()+1)+"/"+si.getShardTotal()), true)
                     .addField("RAM:", usedRAMGB + "/" + bean.getTotalPhysicalMemorySize() / 1000000000 + "GB", true)
                     .setFooter("Written by Frosty ☃#0141 | JDA " + JDAInfo.VERSION, null);

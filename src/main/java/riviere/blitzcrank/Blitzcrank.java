@@ -6,6 +6,7 @@ import com.merakianalytics.orianna.types.common.Region;
 import com.sun.management.OperatingSystemMXBean;
 import net.dv8tion.jda.bot.sharding.DefaultShardManager;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.bot.sharding.ShardManager;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -28,7 +29,9 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
-class Blitzcrank {
+public class Blitzcrank {
+    private ShardManager shards = null;
+
     private Blitzcrank() throws IOException, LoginException {
         // should have five lines
         // 0 - bot token
@@ -79,19 +82,23 @@ class Blitzcrank {
                 new SupportCommand(),
                 new HelpCommand(),
                 new UptimeCommand(start),
-                new ShutdownCommand(),
-                new InfoCommand(bean),
+                new ShutdownCommand(this),
+                new InfoCommand(this, bean),
                 new RegionCommands(db)
         );
 
         Orianna.setRiotAPIKey(riotAPIKey);
         Orianna.setDefaultRegion(Region.NORTH_AMERICA);
-        new DefaultShardManagerBuilder()
+        shards = new DefaultShardManagerBuilder()
                 .setToken(botToken)
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .setGame(Game.playing("loading..."))
-                .addEventListeners(new Listener(), client.build())
+                .addEventListeners(new Listener(this), client.build())
                 .build();
+    }
+
+    public ShardManager getShardManager() {
+        return shards;
     }
 
     public static void main(String[] args) {

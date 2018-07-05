@@ -12,14 +12,18 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
+import sun.java2d.loops.Blit;
 
 
 @SuppressWarnings("ConstantConditions")
 class Listener implements EventListener {
 
     private final static Logger LOG = LoggerFactory.getLogger(Listener.class);
+    private final Blitzcrank blitzcrank;
+
+    public Listener(Blitzcrank blitzcrank) {
+        this.blitzcrank = blitzcrank;
+    }
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -43,7 +47,7 @@ class Listener implements EventListener {
                         .addBlankField(true)
                         .addField("Users:", "" + guild.getMembers().size(), true)
                         .addField("Bots", "" + botCount, true);
-                TextChannel log = event.getJDA().getTextChannelById("295831639219634177");
+                TextChannel log = blitzcrank.getShardManager().getTextChannelById("295831639219634177");
                 log.sendMessage(builder.build()).queue();
             } else {
                 //noinspection ConstantConditions
@@ -56,7 +60,7 @@ class Listener implements EventListener {
                         .addBlankField(true)
                         .addField("Users:", "" + guild.getMembers().size(), true)
                         .addField("Total:", "" + event.getJDA().getGuilds().size(), true);
-                TextChannel log = event.getJDA().getTextChannelById("295831639219634177");
+                TextChannel log = blitzcrank.getShardManager().getTextChannelById("295831639219634177");
                 log.sendMessage(builder.build()).queue();
             }
 
