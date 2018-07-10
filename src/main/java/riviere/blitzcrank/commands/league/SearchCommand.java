@@ -23,7 +23,7 @@ public class SearchCommand extends Command {
         this.help = "Gets ranked stats for a summoner";
         this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE};
         this.guildOnly = true;
-        this.aliases = new String[]{"lookup", "find", "stats"};
+        this.aliases = new String[]{"lookup", "find", "stats", "rank"};
         this.arguments = "[user] [region]";
         this.ap = ap;
     }

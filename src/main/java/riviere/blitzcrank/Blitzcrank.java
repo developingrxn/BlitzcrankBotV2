@@ -78,7 +78,7 @@ public class Blitzcrank {
                 new CurrentGameCommand(ap),
 
                 //misc commands
-                new PingCommand(),
+                new PingCommand(this),
                 new InviteCommand(),
                 new SupportCommand(),
                 new HelpCommand(),
