@@ -96,16 +96,20 @@ public class Blitzcrank {
                 .setToken(botToken)
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .setGame(Game.playing("loading..."))
-
                 .build();
 
         List<BlitzcrankShard> blitzcrankShards = new ArrayList<>();
-        for (int i = 0; i < shards.getShards().size(); i++) {
+        for (int i = 0; i < shards.getShardsTotal(); i++) {
             BlitzcrankShard shard = new BlitzcrankShard(i);
             shards.getShardById(i).setEventManager(new ShardEventManager(shard));
+            System.out.println(i);
             shards.addEventListener(new Listener(this), client.build());
             blitzcrankShards.add(shard);
-
+            try {
+                Thread.sleep(5000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
        new Thread(() -> {

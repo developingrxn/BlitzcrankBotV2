@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.ChannelType;
 
 public class SupportCommand extends Command {
 
@@ -18,7 +19,7 @@ public class SupportCommand extends Command {
     protected void execute(CommandEvent event) {
         String supportURL = "https://discord.gg/UP4TwFX";
 
-        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
+        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setColor(0x1AFFA7)
                     .setDescription("[Click here to join my support server!](" + supportURL + ")");

@@ -1,6 +1,7 @@
 package riviere.blitzcrank;
 
 import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.events.StatusChangeEvent;
 import net.dv8tion.jda.core.hooks.InterfacedEventManager;
 
 class ShardEventManager extends InterfacedEventManager {

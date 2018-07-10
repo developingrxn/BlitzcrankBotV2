@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.ChannelType;
 
 public class HelpCommand extends Command {
 
@@ -18,7 +19,7 @@ public class HelpCommand extends Command {
     @Override
     protected void execute(CommandEvent event) {
         String helpURL = "https://superfrosty.github.io/BlitzcrankBotV2/";
-        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
+        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
             if (event.getArgs().isEmpty()) {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setColor(0x1AFFA7)

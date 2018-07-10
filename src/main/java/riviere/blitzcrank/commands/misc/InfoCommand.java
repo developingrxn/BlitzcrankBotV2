@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.Permission;
 
 import com.sun.management.OperatingSystemMXBean;
+import net.dv8tion.jda.core.entities.ChannelType;
 import riviere.blitzcrank.Blitzcrank;
 
 public class InfoCommand extends Command {
@@ -26,7 +27,7 @@ public class InfoCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
+        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
             long usedRAM = bean.getTotalPhysicalMemorySize() - bean.getFreePhysicalMemorySize();
             long usedRAMGB = usedRAM / 1000000000;
             JDA.ShardInfo si = event.getJDA().getShardInfo();
