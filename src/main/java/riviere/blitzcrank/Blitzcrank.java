@@ -102,8 +102,7 @@ public class Blitzcrank {
         for (int i = 0; i < shards.getShardsTotal(); i++) {
             BlitzcrankShard shard = new BlitzcrankShard(i);
             shards.getShardById(i).setEventManager(new ShardEventManager(shard));
-            System.out.println(i);
-            shards.addEventListener(new Listener(this), client.build());
+            shards.getShardById(i).addEventListener(new Listener(this), client.build());
             blitzcrankShards.add(shard);
             try {
                 Thread.sleep(5000L);
