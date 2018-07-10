@@ -19,7 +19,7 @@ public class SupportCommand extends Command {
     protected void execute(CommandEvent event) {
         String supportURL = "https://discord.gg/UP4TwFX";
 
-        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
+        if (event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setColor(0x1AFFA7)
                     .setDescription("[Click here to join my support server!](" + supportURL + ")");

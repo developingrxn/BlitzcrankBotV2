@@ -32,7 +32,7 @@ public class CurrentGameCommand extends Command {
     @Override
     protected void execute(CommandEvent event) {
         event.async(() -> {
-            boolean hasPerms = event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS);
+            boolean hasPerms = event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_EMBED_LINKS);
             Message msg;
             if (hasPerms) {
                 msg = event.getChannel().sendMessage(new EmbedBuilder().setTitle("Rocket grabbing your data (this one takes a while)...", null).setColor(0xFCC932).build()).complete();

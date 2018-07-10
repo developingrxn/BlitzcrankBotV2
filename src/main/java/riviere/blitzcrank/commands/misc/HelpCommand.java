@@ -18,9 +18,9 @@ public class HelpCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        String helpURL = "https://superfrosty.github.io/BlitzcrankBotV2/";
-        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
-            if (event.getArgs().isEmpty()) {
+        String helpURL = "https://apal0934.github.io/BlitzcrankBotV2/";
+        if (event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
+                if (event.getArgs().isEmpty()) {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setColor(0x1AFFA7)
                         .setDescription("[Click here to view a full list of commands!](" + helpURL + ")")

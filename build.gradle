@@ -11,6 +11,12 @@ def jdaVersion = '3.6.0_377'
 
 sourceCompatibility = 1.8
 
+shadowJar {
+    baseName = "BlitzcrankBot"
+    classifier = null
+    version = null
+}
+
 repositories {
     jcenter()
     mavenCentral()

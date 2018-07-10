@@ -27,7 +27,7 @@ public class InfoCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
+        if (event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
             long usedRAM = bean.getTotalPhysicalMemorySize() - bean.getFreePhysicalMemorySize();
             long usedRAMGB = usedRAM / 1000000000;
             JDA.ShardInfo si = event.getJDA().getShardInfo();

@@ -19,7 +19,7 @@ public class InviteCommand extends Command {
     protected void execute(CommandEvent event) {
         String inviteURL = "https://discordapp.com/oauth2/authorize?client_id=282765243862614016&scope=bot&permissions=19456";
 
-        if (event.getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
+        if (event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_EMBED_LINKS) || event.isFromType(ChannelType.PRIVATE)) {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setColor(0x1AFFA7)
                     .setDescription("[Click here to invite me to your server!](" + inviteURL + ")");
