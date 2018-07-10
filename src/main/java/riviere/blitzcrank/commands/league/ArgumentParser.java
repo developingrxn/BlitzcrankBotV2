@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class ArgumentParser {
     private final static String[] VALID_REGIONS = {"BR", "EUW", "EUNE", "JP", "KR", "LAN", "LAS", "NA", "OCE", "RU", "TR"};
     private final Database db;
@@ -21,6 +22,7 @@ public class ArgumentParser {
         this.db = db;
     }
 
+    @SuppressWarnings("unused")
     enum Region {
         BR("BRAZIL"), EUW("EUROPE_WEST"), EUNE("EUROPE_NORTH_EAST"), JP("JP"), KR("KOREA"), LAN("LATIN_AMERICA_NORTH"),
         LAS("LATIN_AMERICA_SOUTH"), NA("NORTH_AMERICA"), OCE("OCEANIA"), RU("RUSSIA"), TR("TURKEY");

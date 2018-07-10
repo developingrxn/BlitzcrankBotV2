@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 
 public class RegionCommands extends Command {
-    private Database db;
+    private final Database db;
 
     public RegionCommands(Database db) {
         this.name = "region";
@@ -23,15 +23,27 @@ public class RegionCommands extends Command {
     @Override
     public void execute(CommandEvent event) {
         String[] args = event.getArgs().split(" ");
-        if (args[0].equals("view")) view(event, event.getGuild().getId());
-        else if (args[0].equals("set")) set(event, event.getGuild().getId());
-        else if (args[0].equals("update")) update(event, event.getGuild().getId());
-        else if (args[0].equals("list")) list(event);
-        else event.replyOrAlternate(new EmbedBuilder().setColor(0xCA0147).setDescription("Available region commands are: `list, view, set, update`").build(), "```\nAvailable region commands are: list, view, set, update\n```");
+        switch (args[0]) {
+            case "view":
+                view(event, event.getGuild().getId());
+                break;
+            case "set":
+                set(event, event.getGuild().getId());
+                break;
+            case "update":
+                update(event, event.getGuild().getId());
+                break;
+            case "list":
+                list(event);
+                break;
+            default:
+                event.replyOrAlternate(new EmbedBuilder().setColor(0xCA0147).setDescription("Available region commands are: `list, view, set, update`").build(), "```\nAvailable region commands are: list, view, set, update\n```");
+                break;
+        }
     }
 
     private void view(CommandEvent event, String guildID) {
-        String region = "";
+        String region;
         try {
             region = db.findEntry(guildID);
         } catch (Exception e) {

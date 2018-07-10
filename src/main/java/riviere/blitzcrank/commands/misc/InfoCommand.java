@@ -21,6 +21,7 @@ public class InfoCommand extends Command {
         this.aliases = new String[]{"about", "information"};
         this.bean = bean;
         this.blitzcrank = blitzcrank;
+        this.guildOnly = false;
     }
 
     @Override

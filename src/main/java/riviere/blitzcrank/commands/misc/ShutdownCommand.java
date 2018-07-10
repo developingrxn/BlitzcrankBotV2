@@ -4,6 +4,8 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import riviere.blitzcrank.Blitzcrank;
 
+import static java.lang.System.exit;
+
 public class ShutdownCommand extends Command {
     private final Blitzcrank blitzcrank;
 
@@ -12,12 +14,12 @@ public class ShutdownCommand extends Command {
         this.help = "Shuts down the bot";
         this.ownerCommand = true;
         this.blitzcrank = blitzcrank;
+
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        for (int i = 0; i < blitzcrank.getShardManager().getGuilds().size(); i++) {
-            blitzcrank.getShardManager().shutdown(i);
-        }
+        blitzcrank.getShardManager().shutdown();
+        exit(0);
     }
 }
