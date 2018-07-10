@@ -3,6 +3,7 @@ config.txt
 gradle/
 .idea/*
 .gradle/*
+out/
 settings.gradle
 gradlew
 gradlew.bat
