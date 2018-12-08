@@ -93,7 +93,7 @@ public class Blitzcrank {
         Orianna.setDefaultRegion(Region.NORTH_AMERICA);
 
         shards = new DefaultShardManagerBuilder()
-                .setToken(botToken)
+                .setToken(NTIxMDI5MDExNjk0OTQ0MjY2.Du2d_g.97hLx-9eP1IYku_QeuwcXoyVvTs)
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .setGame(Game.playing("loading..."))
                 .build();
